@@ -1,0 +1,27 @@
+node_modules/
+dist/
+.env
+.env.local
+.next/
+out/
+build/
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Uploads - keep directory structure, ignore files
+server/src/uploads/*
+!server/src/uploads/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# TypeScript
+*.tsbuildinfo
+
+# Coverage
+coverage/
