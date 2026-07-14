@@ -43,8 +43,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${cinzel.variable}`}>
-      <body>
+    <html lang="en" className={`${inter.variable} ${cinzel.variable}`} suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <div className="page-wrapper">
           <Header />
           <Breadcrumbs />
