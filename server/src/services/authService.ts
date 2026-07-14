@@ -10,9 +10,11 @@ export class AuthService {
    * Register a new admin user.
    */
   static async register(data: RegisterInput): Promise<{ admin: IAdmin; token: string }> {
-    const existing = await Admin.findOne({ email: data.email });
+    const existing = await Admin.findOne({
+      $or: [{ email: data.email }, { username: data.username }],
+    });
     if (existing) {
-      throw ApiError.conflict('Admin with this email already exists');
+      throw ApiError.conflict('Admin with this email or username already exists');
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 12);
@@ -32,14 +34,14 @@ export class AuthService {
    * Authenticate an admin and return a JWT.
    */
   static async login(data: LoginInput): Promise<{ admin: IAdmin; token: string }> {
-    const admin = await Admin.findOne({ email: data.email }).select('+password');
+    const admin = await Admin.findOne({ username: data.username }).select('+password');
     if (!admin) {
-      throw ApiError.unauthorized('Invalid email or password');
+      throw ApiError.unauthorized('Invalid username or password');
     }
 
     const isMatch = await bcrypt.compare(data.password, admin.password);
     if (!isMatch) {
-      throw ApiError.unauthorized('Invalid email or password');
+      throw ApiError.unauthorized('Invalid username or password');
     }
 
     // Remove password from response
@@ -65,7 +67,7 @@ export class AuthService {
    */
   private static generateToken(id: string): string {
     return jwt.sign({ id }, env.JWT_SECRET, {
-      expiresIn: env.JWT_EXPIRES_IN,
+      expiresIn: '7d',
     });
   }
 }

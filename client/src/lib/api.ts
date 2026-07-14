@@ -1,4 +1,4 @@
-import { ApiResponse, Region, Era } from '@/types';
+import { ApiResponse, Region, Era, AuthResponse } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
 
@@ -25,6 +25,51 @@ async function apiFetch<T>(endpoint: string, options?: RequestInit): Promise<T> 
   }
 
   return res.json();
+}
+
+/**
+ * Fetch wrapper for authenticated requests (client-side only).
+ */
+async function authFetch<T>(endpoint: string, options?: RequestInit): Promise<T> {
+  const url = `${API_BASE_URL}${endpoint}`;
+  const token = typeof window !== 'undefined' ? localStorage.getItem('admin_token') : null;
+
+  const res = await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }),
+      ...options?.headers,
+    },
+    ...options,
+  });
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({ message: 'API request failed' }));
+    throw new Error(error.message || `API error: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+// ─── Auth API ───
+
+export async function loginAdmin(username: string, password: string): Promise<ApiResponse<AuthResponse>> {
+  const res = await fetch(`${API_BASE_URL}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password }),
+  });
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({ message: 'Login failed' }));
+    throw new Error(error.message || 'Login failed');
+  }
+
+  return res.json();
+}
+
+export async function getCurrentAdmin(): Promise<ApiResponse<AuthResponse>> {
+  return authFetch<ApiResponse<AuthResponse>>('/auth/me');
 }
 
 // ─── Region API ───

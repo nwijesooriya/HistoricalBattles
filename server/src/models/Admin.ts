@@ -1,16 +1,23 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IAdmin extends Document {
+  username: string;
   email: string;
   password: string;
-  name: string;
-  role: 'admin' | 'superadmin';
+  role: 'super_admin' | 'editor';
   createdAt: Date;
   updatedAt: Date;
 }
 
 const adminSchema = new Schema<IAdmin>(
   {
+    username: {
+      type: String,
+      required: [true, 'Username is required'],
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
     email: {
       type: String,
       required: [true, 'Email is required'],
@@ -24,15 +31,10 @@ const adminSchema = new Schema<IAdmin>(
       minlength: [6, 'Password must be at least 6 characters'],
       select: false,
     },
-    name: {
-      type: String,
-      required: [true, 'Name is required'],
-      trim: true,
-    },
     role: {
       type: String,
-      enum: ['admin', 'superadmin'],
-      default: 'admin',
+      enum: ['super_admin', 'editor'],
+      default: 'editor',
     },
   },
   {
