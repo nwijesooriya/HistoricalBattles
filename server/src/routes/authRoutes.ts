@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { register, login, getMe } from '../controllers/authController';
-import { protect } from '../middlewares/auth';
+import { protect, restrictToSuperAdmin } from '../middlewares/auth';
 
 const router = Router();
 
-router.post('/register', register);
+// Only super_admin can register new admins
+router.post('/register', protect, restrictToSuperAdmin, register);
 router.post('/login', login);
 router.get('/me', protect, getMe);
 

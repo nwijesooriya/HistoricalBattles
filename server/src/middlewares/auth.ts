@@ -7,8 +7,8 @@ import { env } from '../config/env';
 export interface AuthRequest extends Request {
   admin?: {
     id: string;
+    username: string;
     email: string;
-    name: string;
     role: string;
   };
 }
@@ -41,8 +41,8 @@ export const protect = async (
 
     req.admin = {
       id: admin._id.toString(),
+      username: admin.username,
       email: admin.email,
-      name: admin.name,
       role: admin.role,
     };
 
@@ -50,4 +50,34 @@ export const protect = async (
   } catch {
     next(ApiError.unauthorized('Invalid or expired token'));
   }
+};
+
+/**
+ * Middleware to restrict access to super_admin only.
+ * Must be used after the protect middleware.
+ */
+export const restrictToSuperAdmin = (
+  req: AuthRequest,
+  _res: Response,
+  next: NextFunction
+): void => {
+  if (req.admin?.role !== 'super_admin') {
+    return next(ApiError.forbidden('Only super_admin can perform this action'));
+  }
+  next();
+};
+
+/**
+ * Middleware to restrict access to both super_admin and editor.
+ * Must be used after the protect middleware.
+ */
+export const restrictToEditor = (
+  req: AuthRequest,
+  _res: Response,
+  next: NextFunction
+): void => {
+  if (req.admin?.role !== 'super_admin' && req.admin?.role !== 'editor') {
+    return next(ApiError.forbidden('Only admins can perform this action'));
+  }
+  next();
 };
