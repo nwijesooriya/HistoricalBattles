@@ -64,7 +64,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col items-center justify-center p-4 relative overflow-hidden select-none">
+    <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] flex flex-col items-center justify-center p-4 relative overflow-hidden select-none">
       {/* Decorative Blur Background Meshes */}
       <div className="absolute -top-40 -left-40 w-96 h-96 bg-purple-500/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-[140px] pointer-events-none" />
@@ -75,16 +75,16 @@ export default function AdminLoginPage() {
           <div className="p-3 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 mb-4 shadow-inner shadow-indigo-500/5">
             {Icons.shield("w-8 h-8")}
           </div>
-          <h2 className="text-3xl font-extrabold text-white tracking-tight">
+          <h2 className="text-3xl font-extrabold text-[var(--color-text)] tracking-tight">
             Admin Portal
           </h2>
-          <p className="text-sm text-zinc-500 mt-1.5 font-medium tracking-wide">
+          <p className="text-sm text-[var(--color-text-muted)] mt-1.5 font-medium tracking-wide">
             Historical Atlas CMS
           </p>
         </div>
 
         {/* Glassmorphic Login Card */}
-        <div className="bg-gradient-to-b from-zinc-900 to-zinc-950 border border-zinc-800/80 rounded-2xl shadow-2xl p-8 relative overflow-hidden">
+        <div className="bg-gradient-to-b from-[var(--color-surface-hover)] to-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl shadow-2xl p-8 relative overflow-hidden">
           {/* Subtle Top-Border Highlight */}
           <span className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500" />
 
@@ -101,11 +101,11 @@ export default function AdminLoginPage() {
             <div className="space-y-5">
               {/* Username Field */}
               <div>
-                <label htmlFor="username" className="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">
+                <label htmlFor="username" className="block text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-2">
                   Username
                 </label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-500 group-focus-within:text-indigo-400 transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--color-text-muted)] group-focus-within:text-indigo-400 transition-colors">
                     {Icons.user("w-5 h-5")}
                   </div>
                   <input
@@ -116,18 +116,18 @@ export default function AdminLoginPage() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Enter your administrative username"
-                    className="w-full bg-[#0e0e11] text-zinc-100 pl-11 pr-4 py-3 border border-zinc-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all placeholder-zinc-600 text-sm"
+                    className="w-full bg-[var(--color-surface)] text-[var(--color-text)] pl-11 pr-4 py-3 border border-[var(--color-border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all placeholder-[var(--color-text-muted)] text-sm"
                   />
                 </div>
               </div>
 
               {/* Password Field */}
               <div>
-                <label htmlFor="password" className="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">
+                <label htmlFor="password" className="block text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-2">
                   Password
                 </label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-500 group-focus-within:text-indigo-400 transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--color-text-muted)] group-focus-within:text-indigo-400 transition-colors">
                     {Icons.lock("w-5 h-5")}
                   </div>
                   <input
@@ -138,12 +138,12 @@ export default function AdminLoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••••••"
-                    className="w-full bg-[#0e0e11] text-zinc-100 pl-11 pr-11 py-3 border border-zinc-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all placeholder-zinc-600 text-sm"
+                    className="w-full bg-[var(--color-surface)] text-[var(--color-text)] pl-11 pr-11 py-3 border border-[var(--color-border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all placeholder-[var(--color-text-muted)] text-sm"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-500 hover:text-zinc-300 transition-colors focus:outline-none"
+                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] transition-colors focus:outline-none"
                   >
                     {showPassword ? Icons.eyeOff("w-5 h-5") : Icons.eye("w-5 h-5")}
                   </button>
@@ -156,7 +156,7 @@ export default function AdminLoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="group relative w-full flex justify-center py-3 px-4 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-semibold text-sm rounded-xl transition-all duration-200 active:scale-[0.98] shadow-md shadow-indigo-600/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#09090b] focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="group relative w-full flex justify-center py-3 px-4 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-semibold text-sm rounded-xl transition-all duration-200 active:scale-[0.98] shadow-md shadow-indigo-600/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--color-bg)] focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <div className="flex items-center gap-2">
@@ -175,7 +175,7 @@ export default function AdminLoginPage() {
         </div>
         
         {/* Footer info */}
-        <p className="text-center text-xs text-zinc-600 mt-6">
+        <p className="text-center text-xs text-[var(--color-text-muted)] mt-6">
           Authorized administrative personnel access only. Unauthorised connection attempts are tracked.
         </p>
       </div>

@@ -29,7 +29,7 @@ const Icons = {
   ),
   kingdoms: (className: string) => (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 01-3.138-3.138z" />
     </svg>
   ),
   wars: (className: string) => (
@@ -162,24 +162,24 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#09090b] flex flex-col items-center justify-center space-y-4">
+      <div className="min-h-screen bg-[var(--color-bg)] flex flex-col items-center justify-center space-y-4">
         <div className="relative w-16 h-16">
-          <div className="absolute inset-0 rounded-full border-4 border-zinc-800"></div>
+          <div className="absolute inset-0 rounded-full border-4 border-[var(--color-border)]"></div>
           <div className="absolute inset-0 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin"></div>
         </div>
-        <div className="text-zinc-400 font-medium animate-pulse">Loading secure session...</div>
+        <div className="text-[var(--color-text-secondary)] font-medium animate-pulse">Loading secure session...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 selection:bg-indigo-500/30 selection:text-white">
+    <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] selection:bg-indigo-500/30 selection:text-white">
       {/* Dynamic Background Mesh Effect */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-[#09090b]/80 border-b border-zinc-800/80">
+      <header className="sticky top-0 z-50 backdrop-blur-md bg-[var(--color-bg)]/80 border-b border-[var(--color-border)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-3">
@@ -189,19 +189,19 @@ export default function AdminDashboard() {
                 </svg>
               </div>
               <div>
-                <h1 className="text-xl font-bold tracking-tight text-white">Historical Atlas</h1>
-                <p className="text-xs text-zinc-400 uppercase tracking-widest font-semibold">Database CMS Console</p>
+                <h1 className="text-xl font-bold tracking-tight text-[var(--color-text)]">Historical Atlas</h1>
+                <p className="text-xs text-[var(--color-text-muted)] uppercase tracking-widest font-semibold">Database CMS Console</p>
               </div>
             </div>
 
             <div className="flex items-center space-x-6">
-              <div className="hidden sm:flex items-center space-x-3 bg-zinc-900/80 border border-zinc-800 px-4 py-1.5 rounded-full">
+              <div className="hidden sm:flex items-center space-x-3 bg-[var(--color-surface)]/80 border border-[var(--color-border)] px-4 py-1.5 rounded-full">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <span className="text-xs text-zinc-400">
-                  User: <span className="text-zinc-200 font-medium">{admin?.username}</span>
+                <span className="text-xs text-[var(--color-text-secondary)]">
+                  User: <span className="text-[var(--color-text)] font-medium">{admin?.username}</span>
                 </span>
                 <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
                   {admin?.role}
@@ -209,7 +209,7 @@ export default function AdminDashboard() {
               </div>
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 text-sm font-medium text-zinc-400 hover:text-red-400 border border-transparent hover:border-red-500/20 hover:bg-red-500/5 rounded-lg transition-all duration-200"
+                className="px-4 py-2 text-sm font-medium text-[var(--color-text-secondary)] hover:text-red-400 border border-transparent hover:border-red-500/20 hover:bg-red-500/5 rounded-lg transition-all duration-200"
               >
                 Sign Out
               </button>
@@ -222,14 +222,14 @@ export default function AdminDashboard() {
       <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         {/* Welcome Section */}
-        <div className="mb-10 bg-gradient-to-r from-zinc-900 to-zinc-950 border border-zinc-800 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="mb-10 bg-gradient-to-r from-[var(--color-surface-hover)] to-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-white mb-1">Welcome back, {admin?.username}!</h2>
-            <p className="text-zinc-400 text-sm">
+            <h2 className="text-2xl font-bold text-[var(--color-text)] mb-1">Welcome back, {admin?.username}!</h2>
+            <p className="text-[var(--color-text-secondary)] text-sm">
               Manage mapping nodes, chronicled eras, historical records, and structural entities across the timeline.
             </p>
           </div>
-          <div className="flex items-center gap-2 text-xs text-zinc-500 bg-zinc-900/50 px-3 py-1.5 rounded-lg border border-zinc-800/60">
+          <div className="flex items-center gap-2 text-xs text-[var(--color-text-muted)] bg-[var(--color-surface)]/50 px-3 py-1.5 rounded-lg border border-[var(--color-border)]">
             <span>System State:</span>
             <span className="text-emerald-400 font-semibold">Active & Synced</span>
           </div>
@@ -238,11 +238,11 @@ export default function AdminDashboard() {
         {/* Statistics Overview */}
         <section className="mb-12">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-white tracking-wide flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-[var(--color-text)] tracking-wide flex items-center gap-2">
               <span className="h-4 w-1 bg-indigo-500 rounded-full"></span>
               Atlas Metrics
             </h3>
-            <span className="text-xs text-zinc-500">Total metrics tracking live</span>
+            <span className="text-xs text-[var(--color-text-muted)]">Total metrics tracking live</span>
           </div>
           
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -256,16 +256,16 @@ export default function AdminDashboard() {
                 </div>
                 <div className="flex justify-between items-start">
                   <div>
-                    <span className="text-xs font-semibold text-zinc-400 tracking-wider uppercase">{card.title}</span>
-                    <h4 className="text-3xl sm:text-4xl font-extrabold text-white mt-2 tracking-tight">
+                    <span className="text-xs font-semibold text-[var(--color-text-secondary)] tracking-wider uppercase">{card.title}</span>
+                    <h4 className="text-3xl sm:text-4xl font-extrabold text-[var(--color-text)] mt-2 tracking-tight">
                       {card.count}
                     </h4>
                   </div>
-                  <div className="p-2 rounded-lg bg-zinc-950/40 border border-white/5">
+                  <div className="p-2 rounded-lg bg-[var(--color-bg)]/40 border border-white/5">
                     {card.icon("w-5 h-5")}
                   </div>
                 </div>
-                <div className="mt-4 flex items-center text-xs text-zinc-400 group-hover:text-zinc-200 transition-colors">
+                <div className="mt-4 flex items-center text-xs text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)] transition-colors">
                   <span>Data collection healthy</span>
                 </div>
               </div>
@@ -276,11 +276,11 @@ export default function AdminDashboard() {
         {/* Quick Navigation / Management Modules */}
         <section>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-white tracking-wide flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-[var(--color-text)] tracking-wide flex items-center gap-2">
               <span className="h-4 w-1 bg-indigo-500 rounded-full"></span>
               Management Core
             </h3>
-            <p className="text-xs text-zinc-500">Select a structural node to begin curating</p>
+            <p className="text-xs text-[var(--color-text-muted)]">Select a structural node to begin curating</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -288,25 +288,25 @@ export default function AdminDashboard() {
               <button
                 key={card.title}
                 onClick={() => router.push(card.path)}
-                className="group relative bg-[#0e0e11] hover:bg-zinc-900/60 border border-zinc-800 hover:border-zinc-700/80 rounded-xl p-5 text-left transition-all duration-300 shadow-md flex flex-col justify-between h-44"
+                className="group relative bg-[var(--color-surface)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border)] hover:border-[var(--color-border-hover)] rounded-xl p-5 text-left transition-all duration-300 shadow-md flex flex-col justify-between h-44"
               >
                 {/* Visual hover border glow accent */}
                 <span className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
                 
                 <div className="flex items-start justify-between w-full">
-                  <div className="p-2.5 rounded-lg bg-zinc-900 border border-zinc-800 group-hover:border-zinc-700 group-hover:bg-zinc-800/50 transition-colors">
+                  <div className="p-2.5 rounded-lg bg-[var(--color-bg)] border border-[var(--color-border)] group-hover:border-[var(--color-border-hover)] group-hover:bg-[var(--color-surface-hover)] transition-colors">
                     {card.icon(`w-6 h-6 ${card.color.split(' ').pop()}`)}
                   </div>
-                  <div className="text-xs font-mono font-bold tracking-wider text-zinc-500 bg-zinc-900/80 px-2 py-1 rounded border border-zinc-800/80">
+                  <div className="text-xs font-mono font-bold tracking-wider text-[var(--color-text-muted)] bg-[var(--color-bg)]/80 px-2 py-1 rounded border border-[var(--color-border)]">
                     {card.count} Items
                   </div>
                 </div>
 
                 <div className="w-full">
-                  <h4 className="text-md font-bold text-zinc-100 group-hover:text-white transition-colors">
+                  <h4 className="text-md font-bold text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)] transition-colors">
                     {card.title} Module
                   </h4>
-                  <p className="text-xs text-zinc-500 mt-1 line-clamp-1 group-hover:text-zinc-400 transition-colors">
+                  <p className="text-xs text-[var(--color-text-muted)] mt-1 line-clamp-1 group-hover:text-[var(--color-text-secondary)] transition-colors">
                     Create, modify, and link historical {card.title.toLowerCase()}.
                   </p>
                   <div className="flex items-center text-xs text-indigo-400 group-hover:text-indigo-300 font-semibold mt-3 gap-1">

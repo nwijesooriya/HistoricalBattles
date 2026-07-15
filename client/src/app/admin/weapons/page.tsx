@@ -157,18 +157,18 @@ export default function AdminWeaponsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow">
+    <div className="min-h-screen bg-[var(--color-bg)]">
+      <header className="bg-[var(--color-surface)] shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div>
               <button
                 onClick={() => router.push('/admin/dashboard')}
-                className="text-sm text-gray-500 hover:text-gray-700 mb-2"
+                className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] mb-2"
               >
                 ← Back to Dashboard
               </button>
-              <h1 className="text-2xl font-bold text-gray-900">Manage Weapons</h1>
+              <h1 className="text-2xl font-bold text-[var(--color-text)]">Manage Weapons</h1>
             </div>
             <button
               onClick={() => setShowForm(true)}
@@ -182,41 +182,41 @@ export default function AdminWeaponsPage() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {showForm && (
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 className="text-lg font-semibold mb-4">
+          <div className="bg-[var(--color-surface)] rounded-lg shadow-md p-6 mb-6">
+            <h2 className="text-lg font-semibold mb-4 text-[var(--color-text)]">
               {editingWeapon ? 'Edit Weapon' : 'Add New Weapon'}
             </h2>
             <form onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Name</label>
                   <input
                     type="text"
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                    <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Type</label>
                     <input
                       type="text"
                       required
                       value={formData.type}
                       onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                       placeholder="e.g., Sword, Bow, Cannon"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Era</label>
+                    <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Era</label>
                     <select
                       required
                       value={formData.eraId}
                       onChange={(e) => setFormData({ ...formData, eraId: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                     >
                       <option value="">Select Era</option>
                       {eras.map((era) => (
@@ -226,29 +226,29 @@ export default function AdminWeaponsPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                  <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Description</label>
                   <textarea
                     required
                     rows={4}
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+                  <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Image URL</label>
                   <input
                     type="text"
                     value={formData.image}
                     onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                   />
                 </div>
                 <div className="flex space-x-3">
                   <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
                     {editingWeapon ? 'Update' : 'Create'}
                   </button>
-                  <button type="button" onClick={handleCancel} className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
+                  <button type="button" onClick={handleCancel} className="px-4 py-2 bg-[var(--color-border)] text-[var(--color-text)] rounded-md hover:bg-[var(--color-border-hover)]">
                     Cancel
                   </button>
                 </div>
@@ -257,27 +257,27 @@ export default function AdminWeaponsPage() {
           </div>
         )}
 
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div className="bg-[var(--color-surface)] rounded-lg shadow-md overflow-hidden">
+          <table className="min-w-full divide-y divide-[var(--color-border)]">
+            <thead className="bg-[var(--color-bg-alt)]">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Era</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Type</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Era</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-[var(--color-text-muted)] uppercase">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-[var(--color-surface)] divide-y divide-[var(--color-border)]">
               {weapons.map((weapon) => (
                 <tr key={weapon._id}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{weapon.name}</div>
+                    <div className="text-sm font-medium text-[var(--color-text)]">{weapon.name}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{weapon.type}</div>
+                    <div className="text-sm text-[var(--color-text-muted)]">{weapon.type}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{eras.find(e => e._id === weapon.eraId)?.name || 'N/A'}</div>
+                    <div className="text-sm text-[var(--color-text-muted)]">{eras.find(e => e._id === weapon.eraId)?.name || 'N/A'}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <button onClick={() => handleEdit(weapon)} className="text-indigo-600 hover:text-indigo-900 mr-4">Edit</button>
@@ -287,7 +287,7 @@ export default function AdminWeaponsPage() {
               ))}
             </tbody>
           </table>
-          {weapons.length === 0 && <div className="p-8 text-center text-gray-500">No weapons found</div>}
+          {weapons.length === 0 && <div className="p-8 text-center text-[var(--color-text-muted)]">No weapons found</div>}
         </div>
       </main>
     </div>
