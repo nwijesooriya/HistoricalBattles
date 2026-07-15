@@ -1,6 +1,7 @@
 import { getRegions } from '@/lib/api';
 import RegionCard from '@/components/cards/RegionCard';
 import { Metadata } from 'next';
+import { Region } from '@/types';
 
 export const metadata: Metadata = {
   title: 'Historical Atlas — Explore World War History',
@@ -8,9 +9,11 @@ export const metadata: Metadata = {
     'Explore the battles, wars, campaigns, and commanders that shaped world history. Browse by region, era, and kingdom.',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage() {
-  let regions = [];
-  let error = null;
+  let regions: Region[] = [];
+  let error: string | null = null;
 
   try {
     regions = await getRegions();
