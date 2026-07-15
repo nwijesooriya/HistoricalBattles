@@ -44,6 +44,9 @@ export default function Header() {
           <Link href="/search" className="header-nav-link">
             Search
           </Link>
+          <Link href="/admin/login" className="header-nav-link">
+            Admin
+          </Link>
         </nav>
 
         {/* Mobile menu button */}
@@ -94,6 +97,13 @@ export default function Header() {
             onClick={() => setMobileMenuOpen(false)}
           >
             Search
+          </Link>
+          <Link
+            href="/admin/login"
+            className="header-mobile-link"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Admin
           </Link>
         </nav>
       )}

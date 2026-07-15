@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 import { connectDB } from '../config/db';
 import { Region } from '../models/Region';
 import { Era } from '../models/Era';
+import { Admin } from '../models/Admin';
 import { regionsSeedData, erasSeedData } from './seedData';
 
 const seed = async (): Promise<void> => {
@@ -11,6 +13,17 @@ const seed = async (): Promise<void> => {
     console.log('🗑️  Clearing existing data...');
     await Region.deleteMany({});
     await Era.deleteMany({});
+    await Admin.deleteMany({});
+
+    console.log('👤 Seeding admin account...');
+    const hashedPassword = await bcrypt.hash('admin123', 12);
+    const admin = await Admin.create({
+      username: 'admin',
+      email: process.env.ADMIN_EMAIL || 'admin@example.com',
+      password: hashedPassword,
+      role: 'super_admin',
+    });
+    console.log(`   ✅ Created admin: ${admin.username} (${admin.email})`);
 
     console.log('🌍 Seeding regions...');
     const regions = await Region.create(
@@ -38,8 +51,13 @@ const seed = async (): Promise<void> => {
     console.log(`   ✅ Created ${eras.length} eras`);
 
     console.log('\n🎉 Seed completed successfully!');
+    console.log(`   Admin: ${admin.username}`);
     console.log(`   Regions: ${regions.length}`);
     console.log(`   Eras: ${eras.length}`);
+    console.log('\n⚠️  Default admin credentials:');
+    console.log(`   Username: admin`);
+    console.log(`   Password: admin123`);
+    console.log('   Please change the password after first login!');
 
     process.exit(0);
   } catch (error) {
