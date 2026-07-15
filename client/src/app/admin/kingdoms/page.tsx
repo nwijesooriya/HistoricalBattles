@@ -184,18 +184,18 @@ export default function AdminKingdomsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow">
+    <div className="min-h-screen bg-[var(--color-bg)]">
+      <header className="bg-[var(--color-surface)] shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div>
               <button
                 onClick={() => router.push('/admin/dashboard')}
-                className="text-sm text-gray-500 hover:text-gray-700 mb-2"
+                className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] mb-2"
               >
                 ← Back to Dashboard
               </button>
-              <h1 className="text-2xl font-bold text-gray-900">Manage Kingdoms</h1>
+              <h1 className="text-2xl font-bold text-[var(--color-text)]">Manage Kingdoms</h1>
             </div>
             <button
               onClick={() => setShowForm(true)}
@@ -209,30 +209,30 @@ export default function AdminKingdomsPage() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {showForm && (
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 className="text-lg font-semibold mb-4">
+          <div className="bg-[var(--color-surface)] rounded-lg shadow-md p-6 mb-6">
+            <h2 className="text-lg font-semibold mb-4 text-[var(--color-text)]">
               {editingKingdom ? 'Edit Kingdom' : 'Add New Kingdom'}
             </h2>
             <form onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Name</label>
                   <input
                     type="text"
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Region</label>
+                    <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Region</label>
                     <select
                       required
                       value={formData.regionId}
                       onChange={(e) => setFormData({ ...formData, regionId: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                     >
                       <option value="">Select Region</option>
                       {regions.map((region) => (
@@ -241,12 +241,12 @@ export default function AdminKingdomsPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Era</label>
+                    <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Era</label>
                     <select
                       required
                       value={formData.eraId}
                       onChange={(e) => setFormData({ ...formData, eraId: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                     >
                       <option value="">Select Era</option>
                       {eras.map((era) => (
@@ -257,50 +257,50 @@ export default function AdminKingdomsPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Start Year</label>
+                    <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Start Year</label>
                     <input
                       type="number"
                       required
                       value={formData.startYear}
                       onChange={(e) => setFormData({ ...formData, startYear: parseInt(e.target.value) })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">End Year</label>
+                    <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">End Year</label>
                     <input
                       type="number"
                       required
                       value={formData.endYear}
                       onChange={(e) => setFormData({ ...formData, endYear: parseInt(e.target.value) })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                  <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Description</label>
                   <textarea
                     required
                     rows={4}
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+                  <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Image URL</label>
                   <input
                     type="text"
                     value={formData.image}
                     onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                   />
                 </div>
                 <div className="flex space-x-3">
                   <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
                     {editingKingdom ? 'Update' : 'Create'}
                   </button>
-                  <button type="button" onClick={handleCancel} className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
+                  <button type="button" onClick={handleCancel} className="px-4 py-2 bg-[var(--color-border)] text-[var(--color-text)] rounded-md hover:bg-[var(--color-border-hover)]">
                     Cancel
                   </button>
                 </div>
@@ -309,31 +309,31 @@ export default function AdminKingdomsPage() {
           </div>
         )}
 
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div className="bg-[var(--color-surface)] rounded-lg shadow-md overflow-hidden">
+          <table className="min-w-full divide-y divide-[var(--color-border)]">
+            <thead className="bg-[var(--color-bg-alt)]">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Years</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Region</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Era</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Years</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Region</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Era</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-[var(--color-text-muted)] uppercase">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-[var(--color-surface)] divide-y divide-[var(--color-border)]">
               {kingdoms.map((kingdom) => (
                 <tr key={kingdom._id}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{kingdom.name}</div>
+                    <div className="text-sm font-medium text-[var(--color-text)]">{kingdom.name}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{kingdom.startYear} - {kingdom.endYear}</div>
+                    <div className="text-sm text-[var(--color-text-muted)]">{kingdom.startYear} - {kingdom.endYear}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{regions.find(r => r._id === kingdom.regionId)?.name || 'N/A'}</div>
+                    <div className="text-sm text-[var(--color-text-muted)]">{regions.find(r => r._id === kingdom.regionId)?.name || 'N/A'}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{eras.find(e => e._id === kingdom.eraId)?.name || 'N/A'}</div>
+                    <div className="text-sm text-[var(--color-text-muted)]">{eras.find(e => e._id === kingdom.eraId)?.name || 'N/A'}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <button onClick={() => handleEdit(kingdom)} className="text-indigo-600 hover:text-indigo-900 mr-4">Edit</button>
@@ -343,7 +343,7 @@ export default function AdminKingdomsPage() {
               ))}
             </tbody>
           </table>
-          {kingdoms.length === 0 && <div className="p-8 text-center text-gray-500">No kingdoms found</div>}
+          {kingdoms.length === 0 && <div className="p-8 text-center text-[var(--color-text-muted)]">No kingdoms found</div>}
         </div>
       </main>
     </div>
