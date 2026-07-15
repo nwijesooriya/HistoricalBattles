@@ -361,6 +361,30 @@ a {
   opacity: 1;
 }
 
+/* ─── Admin Nav Icon ─── */
+.header-admin-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm);
+  margin-left: var(--space-xs);
+  border-radius: var(--radius-xl);
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.header-admin-link:hover {
+  color: var(--color-accent);
+  background: var(--color-accent-glow);
+  border-color: var(--color-border-hover);
+}
+
+.header-admin-icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+}
+
 .header-mobile-nav {
   display: none;
   padding: var(--space-sm) var(--space-xl) var(--space-lg);

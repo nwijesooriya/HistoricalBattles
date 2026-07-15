@@ -173,11 +173,6 @@ export default function AdminLoginPage() {
             </div>
           </form>
         </div>
-        
-        {/* Footer info */}
-        <p className="text-center text-xs text-[var(--color-text-muted)] mt-6">
-          Authorized administrative personnel access only. Unauthorised connection attempts are tracked.
-        </p>
       </div>
     </div>
   );
