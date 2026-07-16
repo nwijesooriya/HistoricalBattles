@@ -2,11 +2,6 @@
 
 /* ═══════════════════════════════════════════════════════════════
    HISTORICAL ATLAS — Design System
-   Dark theme with aged manuscript / military atlas aesthetic
-   ═══════════════════════════════════════════════════════════════ */
-
-/* ═══════════════════════════════════════════════════════════════
-   HISTORICAL ATLAS — Design System
    Dark + Light themes with aged manuscript / military atlas aesthetic
    ═══════════════════════════════════════════════════════════════ */
 
@@ -96,25 +91,51 @@
   --shadow-glow: 0 0 30px rgba(184, 134, 11, 0.08);
 }
 
-/* ─── Base Styles ─── */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* ═══════════════════════════════════════════════════════════════
+   BASE / RESET
+   IMPORTANT: These must live inside @layer base.
+   Tailwind v4 (via `@import "tailwindcss"`) puts every utility class
+   (p-*, m-*, gap-*, space-y-*, etc.) inside `@layer utilities`.
+   CSS cascade layers rule: ANY unlayered rule beats ANY layered rule,
+   regardless of specificity. A bare `* { margin:0; padding:0; }`
+   sitting outside a layer will silently override every Tailwind
+   spacing utility in the app. Wrapping it in @layer base fixes that,
+   since Tailwind's layer order is base -> components -> utilities,
+   so utilities correctly win again.
+   ═══════════════════════════════════════════════════════════════ */
 
-html {
-  scroll-behavior: smooth;
-}
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-body {
-  font-family: var(--font-body);
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 /* Smooth theme transitions */
@@ -173,18 +194,6 @@ body::before {
     radial-gradient(ellipse at 50% 80%, var(--color-accent-glow) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
 }
 
 /* ═══════════════════════════════════════════════════════════════

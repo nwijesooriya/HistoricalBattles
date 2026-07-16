@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Cinzel } from 'next/font/google';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-import Breadcrumbs from '@/components/layout/Breadcrumbs';
+import ConditionalLayout from '@/components/layout/ConditionalLayout';
 import Script from 'next/script';
 import './globals.css';
 
@@ -57,9 +56,9 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <div className="page-wrapper">
           <Header />
-          <Breadcrumbs />
-          <main className="page-main">{children}</main>
-          <Footer />
+          <ConditionalLayout>
+            <main className="page-main">{children}</main>
+          </ConditionalLayout>
         </div>
       </body>
     </html>
