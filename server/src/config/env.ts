@@ -11,6 +11,12 @@ const envSchema = z.object({
   JWT_EXPIRES_IN: z.string().default('7d'),
   PORT: z.coerce.number().default(5000),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  CLOUDINARY_CLOUD_NAME: z.string().min(1, 'CLOUDINARY_CLOUD_NAME is required'),
+  CLOUDINARY_API_KEY: z.string().min(1, 'CLOUDINARY_API_KEY is required'),
+  CLOUDINARY_API_SECRET: z.string().min(1, 'CLOUDINARY_API_SECRET is required'),
+  CLOUDINARY_FOLDER_PREFIX: z.string().default('historical-atlas'),
+  CLOUDINARY_TRANSFORMATIONS: z.string().default('f_auto,q_auto'),
+  CLOUDINARY_UPLOAD_PRESET: z.string().optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);

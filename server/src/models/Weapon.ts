@@ -1,5 +1,7 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
 import { createSlug } from '../utils/slugify';
+import { ImageMetadata } from '../services/media/types';
+import { imageMetadataSchema } from './imageMetadataSchema';
 
 export interface IWeapon extends Document {
   name: string;
@@ -7,7 +9,7 @@ export interface IWeapon extends Document {
   description: string;
   type: string;
   eraId: Types.ObjectId;
-  image: string;
+  image?: ImageMetadata;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -38,8 +40,8 @@ const weaponSchema = new Schema<IWeapon>(
       required: [true, 'Era is required'],
     },
     image: {
-      type: String,
-      default: '',
+      type: imageMetadataSchema,
+      default: undefined,
     },
   },
   {

@@ -262,7 +262,12 @@ export default function AdminKingdomsPage() {
                       type="number"
                       required
                       value={formData.startYear}
-                      onChange={(e) => setFormData({ ...formData, startYear: parseInt(e.target.value) })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          startYear: e.target.value === '' ? 0 : Number(e.target.value),
+                        })
+                      }
                       className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                     />
                   </div>
@@ -272,7 +277,12 @@ export default function AdminKingdomsPage() {
                       type="number"
                       required
                       value={formData.endYear}
-                      onChange={(e) => setFormData({ ...formData, endYear: parseInt(e.target.value) })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          endYear: e.target.value === '' ? 0 : Number(e.target.value),
+                        })
+                      }
                       className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                     />
                   </div>

@@ -24,7 +24,7 @@ export const getAll = asyncHandler(async (_req: Request, res: Response) => {
  * @access  Public
  */
 export const getBySlug = asyncHandler(async (req: Request, res: Response) => {
-  const era = await EraService.getBySlug(req.params.slug);
+  const era = await EraService.getBySlug(String(req.params.slug));
 
   res.status(200).json({
     success: true,
@@ -38,7 +38,7 @@ export const getBySlug = asyncHandler(async (req: Request, res: Response) => {
  * @access  Public
  */
 export const getByRegion = asyncHandler(async (req: Request, res: Response) => {
-  const eras = await EraService.getByRegion(req.params.regionId);
+  const eras = await EraService.getByRegion(String(req.params.regionId));
 
   res.status(200).json({
     success: true,
@@ -69,7 +69,7 @@ export const create = asyncHandler(async (req: Request, res: Response) => {
  */
 export const update = asyncHandler(async (req: Request, res: Response) => {
   const data = updateEraSchema.parse(req.body);
-  const era = await EraService.update(req.params.id, data);
+  const era = await EraService.update(String(req.params.id), data);
 
   res.status(200).json({
     success: true,
@@ -83,7 +83,7 @@ export const update = asyncHandler(async (req: Request, res: Response) => {
  * @access  Admin
  */
 export const remove = asyncHandler(async (req: Request, res: Response) => {
-  await EraService.delete(req.params.id);
+  await EraService.delete(String(req.params.id));
 
   res.status(200).json({
     success: true,

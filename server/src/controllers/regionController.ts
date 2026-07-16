@@ -24,7 +24,7 @@ export const getAll = asyncHandler(async (_req: Request, res: Response) => {
  * @access  Public
  */
 export const getBySlug = asyncHandler(async (req: Request, res: Response) => {
-  const region = await RegionService.getBySlug(req.params.slug);
+  const region = await RegionService.getBySlug(String(req.params.slug));
 
   res.status(200).json({
     success: true,
@@ -39,7 +39,7 @@ export const getBySlug = asyncHandler(async (req: Request, res: Response) => {
  */
 export const create = asyncHandler(async (req: Request, res: Response) => {
   const data = createRegionSchema.parse(req.body);
-  const region = await RegionService.create(data);
+  const region = await RegionService.create(data, req.file);
 
   res.status(201).json({
     success: true,
@@ -54,7 +54,7 @@ export const create = asyncHandler(async (req: Request, res: Response) => {
  */
 export const update = asyncHandler(async (req: Request, res: Response) => {
   const data = updateRegionSchema.parse(req.body);
-  const region = await RegionService.update(req.params.id, data);
+  const region = await RegionService.update(String(req.params.id), data, req.file);
 
   res.status(200).json({
     success: true,
@@ -68,7 +68,7 @@ export const update = asyncHandler(async (req: Request, res: Response) => {
  * @access  Admin
  */
 export const remove = asyncHandler(async (req: Request, res: Response) => {
-  await RegionService.delete(req.params.id);
+  await RegionService.delete(String(req.params.id));
 
   res.status(200).json({
     success: true,

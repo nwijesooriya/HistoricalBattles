@@ -2,6 +2,7 @@ import { getRegionBySlug, getErasByRegion } from '@/lib/api';
 import EraCard from '@/components/cards/EraCard';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Era } from '@/types';
 
 interface RegionPageProps {
   params: Promise<{ slug: string }>;
@@ -24,7 +25,7 @@ export default async function RegionPage({ params }: RegionPageProps) {
   const { slug } = await params;
 
   let region;
-  let eras = [];
+  let eras: Era[] = [];
   let error = null;
 
   try {

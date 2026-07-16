@@ -1,5 +1,7 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
 import { createSlug } from '../utils/slugify';
+import { ImageMetadata } from '../services/media/types';
+import { imageMetadataSchema } from './imageMetadataSchema';
 
 export interface IBattle extends Document {
   name: string;
@@ -12,7 +14,7 @@ export interface IBattle extends Document {
   location: string;
   outcome: string;
   casualties: string;
-  image: string;
+  image?: ImageMetadata;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -65,8 +67,8 @@ const battleSchema = new Schema<IBattle>(
       default: '',
     },
     image: {
-      type: String,
-      default: '',
+      type: imageMetadataSchema,
+      default: undefined,
     },
   },
   {

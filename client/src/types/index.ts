@@ -1,9 +1,20 @@
+export interface ImageAsset {
+  publicId: string;
+  url: string;
+  width?: number;
+  height?: number;
+  format?: string;
+  bytes?: number;
+  originalFilename?: string;
+  altText?: string;
+}
+
 export interface Region {
   _id: string;
   name: string;
   slug: string;
   description: string;
-  image: string;
+  image: ImageAsset | null;
   createdAt: string;
   updatedAt: string;
 }
