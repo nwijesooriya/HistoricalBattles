@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import path from 'path';
 
 import authRoutes from './routes/authRoutes';
 import regionRoutes from './routes/regionRoutes';
@@ -30,9 +29,6 @@ app.use((req, res, next) => {
   res.setHeader('Expires', '0');
   next();
 });
-
-// ─── Static files (uploads) ───
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ─── API Routes ───
 app.use('/api/v1/auth', authRoutes);

@@ -144,7 +144,7 @@ export default function AdminWarsPage() {
       eraId: war.eraId,
       startYear: war.startYear,
       endYear: war.endYear,
-      image: war.image,
+      image: war.image?.url || '',
     });
     setShowForm(true);
   };

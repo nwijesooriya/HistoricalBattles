@@ -96,7 +96,7 @@ export default function AdminCommandersPage() {
       birthYear: commander.birthYear,
       deathYear: commander.deathYear,
       nationality: commander.nationality,
-      image: commander.image,
+      image: commander.image?.url || '',
     });
     setShowForm(true);
   };

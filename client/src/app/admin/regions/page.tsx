@@ -47,8 +47,9 @@ export default function AdminRegionsPage() {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    image: '',
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState('');
 
   useEffect(() => {
     checkAuthAndFetch();
@@ -97,25 +98,36 @@ export default function AdminRegionsPage() {
         : `${API_BASE_URL}/regions`;
       
       const method = editingRegion ? 'PUT' : 'POST';
+      const payload = new FormData();
+      payload.append('name', formData.name);
+      payload.append('description', formData.description);
+
+      if (imageFile) {
+        payload.append('image', imageFile);
+      }
 
       const res = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json',
           ...(token && { Authorization: `Bearer ${token}` }),
         },
-        body: JSON.stringify(formData),
+        body: payload,
       });
 
-      if (!res.ok) throw new Error('Failed to save region');
+      if (!res.ok) {
+        const errorBody = await res.json().catch(() => null);
+        throw new Error(errorBody?.message || 'Failed to save region');
+      }
 
       setShowForm(false);
       setEditingRegion(null);
-      setFormData({ name: '', description: '', image: '' });
+      setFormData({ name: '', description: '' });
+      setImageFile(null);
+      setImagePreview('');
       fetchRegions();
     } catch (error) {
       console.error('Failed to save region:', error);
-      alert('Failed to save region');
+      alert(error instanceof Error ? error.message : 'Failed to save region');
     }
   };
 
@@ -124,8 +136,9 @@ export default function AdminRegionsPage() {
     setFormData({
       name: region.name,
       description: region.description,
-      image: region.image,
     });
+    setImageFile(null);
+    setImagePreview(region.image?.url || '');
     setShowForm(true);
     // Smooth scroll back up to the form
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -158,7 +171,21 @@ export default function AdminRegionsPage() {
   const handleCancel = () => {
     setShowForm(false);
     setEditingRegion(null);
-    setFormData({ name: '', description: '', image: '' });
+    setFormData({ name: '', description: '' });
+    setImageFile(null);
+    setImagePreview('');
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setImageFile(file);
+
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+      return;
+    }
+
+    setImagePreview(editingRegion?.image?.url || '');
   };
 
   if (loading) {
@@ -263,25 +290,24 @@ export default function AdminRegionsPage() {
                 <div className="space-y-4">
                   <div>
                     <label className="block text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-2">
-                      Image URL or Path
+                      Region Image
                     </label>
                     <input
-                      type="text"
-                      value={formData.image}
-                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                      type="file"
+                      accept="image/jpeg,image/jpg,image/png,image/webp"
+                      onChange={handleImageChange}
                       className="w-full bg-[var(--color-surface)] text-[var(--color-text)] px-4 py-3 border border-[var(--color-border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all placeholder-[var(--color-text-muted)]"
-                      placeholder="/uploads/regions/mediterranean.jpg"
                     />
                   </div>
 
-                  <div className="h-[142px] border border-dashed border-[var(--color-border)] rounded-xl flex flex-col items-center justify-center bg-[var(--color-surface)]/40 relative overflow-hidden group">
-                    {formData.image ? (
+                  <div className="relative h-[200px] border border-dashed border-[var(--color-border)] rounded-xl overflow-hidden group">
+                    {imagePreview ? (
                       <>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img 
-                          src={formData.image} 
+                          src={imagePreview} 
                           alt="Region preview" 
-                          className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500" 
+                          className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-500" 
                           onError={(e) => {
                             (e.target as HTMLElement).style.display = 'none';
                           }}
@@ -291,9 +317,11 @@ export default function AdminRegionsPage() {
                         </div>
                       </>
                     ) : (
-                      <div className="text-center p-4">
-                        {Icons.image("w-8 h-8 text-[var(--color-text-muted)] mx-auto mb-2")}
-                        <span className="text-xs text-[var(--color-text-muted)] block">Empty image field</span>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-center p-4">
+                          {Icons.image("w-8 h-8 text-[var(--color-text-muted)] mx-auto mb-2")}
+                          <span className="text-xs text-[var(--color-text-muted)] block">Empty image field</span>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -354,12 +382,12 @@ export default function AdminRegionsPage() {
                     {/* Region Info & Thumbnail */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-[var(--color-bg)] border border-[var(--color-border)] overflow-hidden flex items-center justify-center flex-shrink-0 relative">
-                          {region.image ? (
+                        <div className="w-16 h-16 rounded-xl bg-[var(--color-bg)] border border-[var(--color-border)] overflow-hidden flex items-center justify-center flex-shrink-0 relative">
+                          {region.image?.url ? (
                             // eslint-disable-next-line @next/next/no-img-element
-                            <img src={region.image} alt="" className="w-full h-full object-cover" />
+                            <img src={region.image.url} alt="" className="w-full h-full object-cover" />
                           ) : (
-                            Icons.globe("w-5 h-5 text-[var(--color-text-muted)]")
+                            Icons.globe("w-6 h-6 text-[var(--color-text-muted)]")
                           )}
                         </div>
                         <div>

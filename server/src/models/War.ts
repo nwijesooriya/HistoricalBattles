@@ -1,5 +1,7 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
 import { createSlug } from '../utils/slugify';
+import { ImageMetadata } from '../services/media/types';
+import { imageMetadataSchema } from './imageMetadataSchema';
 
 export interface IWar extends Document {
   name: string;
@@ -9,7 +11,7 @@ export interface IWar extends Document {
   eraId: Types.ObjectId;
   startYear: number;
   endYear: number;
-  image: string;
+  image?: ImageMetadata;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -49,8 +51,8 @@ const warSchema = new Schema<IWar>(
       required: [true, 'End year is required'],
     },
     image: {
-      type: String,
-      default: '',
+      type: imageMetadataSchema,
+      default: undefined,
     },
   },
   {

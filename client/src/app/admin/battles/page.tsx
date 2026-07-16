@@ -173,7 +173,7 @@ export default function AdminBattlesPage() {
       location: battle.location,
       outcome: battle.outcome,
       casualties: battle.casualties,
-      image: battle.image,
+      image: battle.image?.url || '',
     });
     setShowForm(true);
   };

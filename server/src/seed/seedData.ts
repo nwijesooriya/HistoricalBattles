@@ -8,37 +8,31 @@ export const regionsSeedData = [
     name: 'Europe',
     description:
       'The continent that witnessed the rise and fall of the Roman Empire, the Medieval Crusades, the Napoleonic Wars, and both World Wars. From the ancient battlefields of Thermopylae to the trenches of the Western Front, Europe has been the stage for some of history\'s most consequential conflicts.',
-    image: '/uploads/regions/europe.jpg',
   },
   {
     name: 'Asia',
     description:
       'Home to the Mongol conquests, the Warring States of China and Japan, the campaigns of Timur, and the theaters of the Pacific War. Asia\'s vast geography has shaped warfare from the steppes of Central Asia to the jungles of Southeast Asia.',
-    image: '/uploads/regions/asia.jpg',
   },
   {
     name: 'Africa',
     description:
       'From the ancient Egyptian campaigns and Carthaginian wars to the Zulu Kingdom\'s military innovations and colonial-era conflicts, Africa\'s military history spans millennia of strategy, resistance, and empire-building across diverse terrains.',
-    image: '/uploads/regions/africa.jpg',
   },
   {
     name: 'Middle East',
     description:
       'The cradle of civilization and a crossroads of empires — from the Assyrian war machine and Persian campaigns to the Ottoman conquests and modern conflicts. The Middle East has been contested ground for over five thousand years.',
-    image: '/uploads/regions/middle-east.jpg',
   },
   {
     name: 'Americas',
     description:
       'From the Aztec Flower Wars and Inca expansion to the American Revolution, the Civil War, and the liberation campaigns of South America. The Americas\' military history reflects both indigenous warfare traditions and colonial-era transformations.',
-    image: '/uploads/regions/americas.jpg',
   },
   {
     name: 'Oceania',
     description:
       'The Pacific theater of World War II, the Maori Wars of New Zealand, and the strategic island-hopping campaigns that defined modern amphibious warfare. Oceania\'s military history is shaped by its vast ocean distances and island geography.',
-    image: '/uploads/regions/oceania.jpg',
   },
 ];
 

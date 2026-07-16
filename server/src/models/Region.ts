@@ -1,11 +1,13 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { createSlug } from '../utils/slugify';
+import { ImageMetadata } from '../services/media/types';
+import { imageMetadataSchema } from './imageMetadataSchema';
 
 export interface IRegion extends Document {
   name: string;
   slug: string;
   description: string;
-  image: string;
+  image?: ImageMetadata;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -27,8 +29,8 @@ const regionSchema = new Schema<IRegion>(
       required: [true, 'Description is required'],
     },
     image: {
-      type: String,
-      default: '',
+      type: imageMetadataSchema,
+      default: undefined,
     },
   },
   {

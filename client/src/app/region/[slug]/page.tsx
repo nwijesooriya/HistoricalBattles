@@ -2,6 +2,7 @@ import { getRegionBySlug, getErasByRegion } from '@/lib/api';
 import EraCard from '@/components/cards/EraCard';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Era } from '@/types';
 
 interface RegionPageProps {
   params: Promise<{ slug: string }>;
@@ -24,7 +25,7 @@ export default async function RegionPage({ params }: RegionPageProps) {
   const { slug } = await params;
 
   let region;
-  let eras = [];
+  let eras: Era[] = [];
   let error = null;
 
   try {
@@ -45,6 +46,9 @@ export default async function RegionPage({ params }: RegionPageProps) {
     <>
       {/* Region Hero */}
       <section className="region-hero">
+        {region.image?.url && (
+          <div className="region-hero-image" style={{ backgroundImage: `url(${region.image.url})` }} />
+        )}
         <div className="region-hero-bg" />
         <div className="region-hero-content">
           <h1 className="region-hero-title">{region.name}</h1>
