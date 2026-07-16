@@ -1,9 +1,6 @@
 import Link from 'next/link';
 import { Region } from '@/types';
 
-/**
- * Region icon mapping — uses themed SVG icons for each region.
- */
 const regionIcons: Record<string, string> = {
   europe: '🏰',
   asia: '🏯',
@@ -22,8 +19,13 @@ export default function RegionCard({ region }: RegionCardProps) {
 
   return (
     <Link href={`/region/${region.slug}`} className="region-card" id={`region-${region.slug}`}>
-      {/* Background gradient overlay */}
-      <div className="region-card-bg" />
+      {/* Background image */}
+      {region.image?.url && (
+        <div className="region-card-image" style={{ backgroundImage: `url(${region.image.url})` }} />
+      )}
+
+      {/* Gradient overlay for readability */}
+      <div className="region-card-overlay" />
 
       {/* Content */}
       <div className="region-card-content">

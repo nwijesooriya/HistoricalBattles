@@ -46,6 +46,9 @@ export default async function RegionPage({ params }: RegionPageProps) {
     <>
       {/* Region Hero */}
       <section className="region-hero">
+        {region.image?.url && (
+          <div className="region-hero-image" style={{ backgroundImage: `url(${region.image.url})` }} />
+        )}
         <div className="region-hero-bg" />
         <div className="region-hero-content">
           <h1 className="region-hero-title">{region.name}</h1>

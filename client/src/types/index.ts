@@ -27,6 +27,7 @@ export interface Era {
   endYear: number;
   description: string;
   regionIds: Region[] | string[];
+  image: ImageAsset | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -40,7 +41,7 @@ export interface Kingdom {
   eraId: string;
   startYear: number;
   endYear: number;
-  image: string;
+  image: ImageAsset | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -54,7 +55,7 @@ export interface War {
   eraId: string;
   startYear: number;
   endYear: number;
-  image: string;
+  image: ImageAsset | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -71,7 +72,7 @@ export interface Battle {
   location: string;
   outcome: string;
   casualties: string;
-  image: string;
+  image: ImageAsset | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -84,7 +85,7 @@ export interface Commander {
   birthYear: number;
   deathYear: number;
   nationality: string;
-  image: string;
+  image: ImageAsset | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -96,7 +97,7 @@ export interface Weapon {
   description: string;
   type: string;
   eraId: string;
-  image: string;
+  image: ImageAsset | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -109,6 +110,7 @@ export interface Source {
   type: string;
   url: string;
   description: string;
+  image: ImageAsset | null;
   createdAt: string;
   updatedAt: string;
 }

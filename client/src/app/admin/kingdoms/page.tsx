@@ -144,7 +144,7 @@ export default function AdminKingdomsPage() {
       eraId: kingdom.eraId,
       startYear: kingdom.startYear,
       endYear: kingdom.endYear,
-      image: kingdom.image,
+      image: kingdom.image?.url || '',
     });
     setShowForm(true);
   };

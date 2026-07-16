@@ -117,7 +117,7 @@ export default function AdminWeaponsPage() {
       description: weapon.description,
       type: weapon.type,
       eraId: weapon.eraId,
-      image: weapon.image,
+      image: weapon.image?.url || '',
     });
     setShowForm(true);
   };

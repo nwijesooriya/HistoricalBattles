@@ -300,14 +300,14 @@ export default function AdminRegionsPage() {
                     />
                   </div>
 
-                  <div className="h-[142px] border border-dashed border-[var(--color-border)] rounded-xl flex flex-col items-center justify-center bg-[var(--color-surface)]/40 relative overflow-hidden group">
+                  <div className="relative h-[200px] border border-dashed border-[var(--color-border)] rounded-xl overflow-hidden group">
                     {imagePreview ? (
                       <>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img 
                           src={imagePreview} 
                           alt="Region preview" 
-                          className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500" 
+                          className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-500" 
                           onError={(e) => {
                             (e.target as HTMLElement).style.display = 'none';
                           }}
@@ -317,9 +317,11 @@ export default function AdminRegionsPage() {
                         </div>
                       </>
                     ) : (
-                      <div className="text-center p-4">
-                        {Icons.image("w-8 h-8 text-[var(--color-text-muted)] mx-auto mb-2")}
-                        <span className="text-xs text-[var(--color-text-muted)] block">Empty image field</span>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-center p-4">
+                          {Icons.image("w-8 h-8 text-[var(--color-text-muted)] mx-auto mb-2")}
+                          <span className="text-xs text-[var(--color-text-muted)] block">Empty image field</span>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -380,12 +382,12 @@ export default function AdminRegionsPage() {
                     {/* Region Info & Thumbnail */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-[var(--color-bg)] border border-[var(--color-border)] overflow-hidden flex items-center justify-center flex-shrink-0 relative">
-                          {region.image ? (
+                        <div className="w-16 h-16 rounded-xl bg-[var(--color-bg)] border border-[var(--color-border)] overflow-hidden flex items-center justify-center flex-shrink-0 relative">
+                          {region.image?.url ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img src={region.image.url} alt="" className="w-full h-full object-cover" />
                           ) : (
-                            Icons.globe("w-5 h-5 text-[var(--color-text-muted)]")
+                            Icons.globe("w-6 h-6 text-[var(--color-text-muted)]")
                           )}
                         </div>
                         <div>
