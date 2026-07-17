@@ -4,6 +4,8 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Era } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 interface RegionPageProps {
   params: Promise<{ slug: string }>;
 }
@@ -27,10 +29,12 @@ export default async function RegionPage({ params }: RegionPageProps) {
   let region;
   let eras: Era[] = [];
   let error = null;
+  let imageOpacity = 1;
 
   try {
     region = await getRegionBySlug(slug);
     eras = await getErasByRegion(region._id);
+    imageOpacity = region.imageOpacity ?? region.image?.opacity ?? 1;
   } catch (e) {
     if (e instanceof Error && e.message.includes('not found')) {
       notFound();
@@ -51,7 +55,7 @@ export default async function RegionPage({ params }: RegionPageProps) {
             className="region-hero-image"
             style={{
               backgroundImage: `url(${region.image.url})`,
-              opacity: region.imageOpacity ?? 1,
+              opacity: imageOpacity,
             }}
           />
         )}

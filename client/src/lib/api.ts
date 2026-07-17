@@ -14,9 +14,8 @@ async function apiFetch<T>(endpoint: string, options?: RequestInit): Promise<T> 
       'Content-Type': 'application/json',
       ...options?.headers,
     },
+    cache: 'no-store',
     ...options,
-    // Revalidate every 60 seconds for ISR
-    next: { revalidate: 60 },
   });
 
   if (!res.ok) {
