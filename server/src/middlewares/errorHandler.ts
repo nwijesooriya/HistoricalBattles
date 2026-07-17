@@ -20,33 +20,34 @@ export const errorHandler = (
     statusCode = err.statusCode;
     message = err.message;
   }
-
+  // Zod validation error
+  else if ((err as any).name === 'ZodError' || (err as any).issues) {
+    statusCode = 400;
+    const issues = (err as any).issues || (err as any).errors;
+    message = issues?.[0]?.message || 'Validation failed';
+  }
   // Mongoose validation error
-  if (err.name === 'ValidationError') {
+  else if (err.name === 'ValidationError') {
     statusCode = 400;
     message = err.message;
   }
-
   // Mongoose duplicate key error
-  if ((err as any).code === 11000) {
+  else if ((err as any).code === 11000) {
     statusCode = 409;
     const field = Object.keys((err as any).keyValue || {})[0];
     message = `Duplicate value for field: ${field}`;
   }
-
   // Mongoose cast error (invalid ObjectId)
-  if (err.name === 'CastError') {
+  else if (err.name === 'CastError') {
     statusCode = 400;
     message = 'Invalid ID format';
   }
-
   // JWT errors
-  if (err.name === 'JsonWebTokenError') {
+  else if (err.name === 'JsonWebTokenError') {
     statusCode = 401;
     message = 'Invalid token';
   }
-
-  if (err.name === 'TokenExpiredError') {
+  else if (err.name === 'TokenExpiredError') {
     statusCode = 401;
     message = 'Token expired';
   }
@@ -62,3 +63,4 @@ export const errorHandler = (
     ...(env.NODE_ENV === 'development' && { stack: err.stack }),
   });
 };
+
