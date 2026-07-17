@@ -21,7 +21,13 @@ export default function RegionCard({ region }: RegionCardProps) {
     <Link href={`/region/${region.slug}`} className="region-card" id={`region-${region.slug}`}>
       {/* Background image */}
       {region.image?.url && (
-        <div className="region-card-image" style={{ backgroundImage: `url(${region.image.url})` }} />
+        <div
+          className="region-card-image"
+          style={{
+            backgroundImage: `url(${region.image.url})`,
+            opacity: region.imageOpacity ?? 1,
+          }}
+        />
       )}
 
       {/* Gradient overlay for readability */}

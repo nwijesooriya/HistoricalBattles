@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import Footer from '@/components/layout/Footer';
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
@@ -10,7 +9,6 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
 
   return (
     <>
-      {!isAdmin && <Breadcrumbs />}
       {children}
       {!isAdmin && <Footer />}
     </>
