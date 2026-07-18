@@ -109,6 +109,9 @@ export default function Header() {
           <Link href="/" className="header-nav-link">
             Regions
           </Link>
+          <Link href="/about" className="header-nav-link">
+            About
+          </Link>
           <Link href="/timeline" className="header-nav-link">
             Timeline
           </Link>
@@ -179,6 +182,7 @@ export default function Header() {
       {mobileMenuOpen && (
         <nav className="header-mobile-nav">
           <Link href="/" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Regions</Link>
+          <Link href="/about" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>About</Link>
           <Link href="/timeline" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Timeline</Link>
           <Link href="/map" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Maps</Link>
           <Link href="/search" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Search</Link>
