@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Inter, Cinzel } from 'next/font/google';
 import Header from '@/components/layout/Header';
 import ConditionalLayout from '@/components/layout/ConditionalLayout';
-import Script from 'next/script';
 import './globals.css';
 
 const inter = Inter({
@@ -45,9 +44,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${cinzel.variable}`} suppressHydrationWarning>
       <head>
-        <Script
+        <script
           id="theme-init"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem("theme");if(t){document.documentElement.setAttribute("data-theme",t)}else{document.documentElement.setAttribute("data-theme","dark")}}catch(e){}})()`,
           }}

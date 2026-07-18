@@ -1174,6 +1174,173 @@ body::before {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   HERO PROCESSION ANIMATION
+   ═══════════════════════════════════════════════════════════════ */
+
+.procession-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.procession-unit {
+  position: absolute;
+  bottom: 8%;
+  width: clamp(80px, 12vw, 140px);
+  height: auto;
+  opacity: 0.9;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+  will-change: transform;
+}
+
+.procession-unit.left-to-right {
+  animation: processionLTR 5s linear forwards;
+}
+
+.procession-unit.right-to-left {
+  animation: processionRTL 5s linear forwards;
+}
+
+.procession-unit.slow {
+  animation-duration: 6s;
+}
+
+.procession-unit.fast {
+  animation-duration: 4s;
+}
+
+@keyframes processionLTR {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120vw);
+  }
+}
+
+@keyframes processionRTL {
+  0% {
+    transform: translateX(120vw) scaleX(-1);
+  }
+  100% {
+    transform: translateX(-120%) scaleX(-1);
+  }
+}
+
+/* Gait / gallop cycle animations */
+.gait-leg-left {
+  animation: legCycle 0.8s ease-in-out infinite;
+  transform-origin: 50% 0%;
+}
+
+.gait-leg-right {
+  animation: legCycle 0.8s ease-in-out infinite reverse;
+  transform-origin: 50% 0%;
+}
+
+.gait-horse-leg-left {
+  animation: horseLegCycle 0.6s ease-in-out infinite;
+  transform-origin: 50% 0%;
+}
+
+.gait-horse-leg-right {
+  animation: horseLegCycle 0.6s ease-in-out infinite reverse;
+  transform-origin: 50% 0%;
+}
+
+.gait-body-bob {
+  animation: bodyBob 0.6s ease-in-out infinite;
+}
+
+@keyframes legCycle {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+
+@keyframes horseLegCycle {
+  0%, 100% { transform: rotate(-12deg); }
+  50% { transform: rotate(12deg); }
+}
+
+@keyframes bodyBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+/* Dust particles */
+.procession-dust {
+  position: absolute;
+  bottom: 6%;
+  width: 100%;
+  height: 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dust-particle {
+  position: absolute;
+  background: var(--color-text-muted);
+  border-radius: 50%;
+  opacity: 0;
+  animation: dustFade 1.2s ease-out infinite;
+}
+
+.dust-particle:nth-child(1) { left: 10%; width: 6px; height: 6px; animation-delay: 0s; }
+.dust-particle:nth-child(2) { left: 15%; width: 4px; height: 4px; animation-delay: 0.2s; }
+.dust-particle:nth-child(3) { left: 20%; width: 8px; height: 8px; animation-delay: 0.4s; }
+.dust-particle:nth-child(4) { left: 25%; width: 5px; height: 5px; animation-delay: 0.6s; }
+.dust-particle:nth-child(5) { left: 30%; width: 7px; height: 7px; animation-delay: 0.8s; }
+
+@keyframes dustFade {
+  0% { opacity: 0; transform: translateY(0) scale(1); }
+  20% { opacity: 0.4; }
+  100% { opacity: 0; transform: translateY(-20px) scale(2); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .procession-unit,
+  .procession-unit.left-to-right,
+  .procession-unit.right-to-left,
+  .gait-leg-left,
+  .gait-leg-right,
+  .gait-horse-leg-left,
+  .gait-horse-leg-right,
+  .gait-body-bob,
+  .dust-particle {
+    animation: none !important;
+    opacity: 0.6;
+  }
+  
+  .procession-unit.left-to-right {
+    transform: translateX(10%);
+  }
+  
+  .procession-unit.right-to-left {
+    transform: translateX(70%) scaleX(-1);
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .procession-unit {
+    width: clamp(60px, 18vw, 100px);
+    bottom: 6%;
+    opacity: 0.7;
+  }
+  
+  .procession-unit.slow {
+    animation-duration: 5s;
+  }
+  
+  .procession-unit.fast {
+    animation-duration: 3.5s;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
    ABOUT PAGE
    ═══════════════════════════════════════════════════════════════ */
 
