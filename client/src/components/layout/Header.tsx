@@ -107,10 +107,7 @@ export default function Header() {
         {/* Desktop Navigation */}
         <nav className="header-nav">
           <Link href="/" className="header-nav-link">
-            Regions
-          </Link>
-          <Link href="/about" className="header-nav-link">
-            About
+            Home
           </Link>
           <Link href="/timeline" className="header-nav-link">
             Timeline
@@ -181,8 +178,7 @@ export default function Header() {
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
         <nav className="header-mobile-nav">
-          <Link href="/" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Regions</Link>
-          <Link href="/about" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>About</Link>
+          <Link href="/" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Home</Link>
           <Link href="/timeline" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Timeline</Link>
           <Link href="/map" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Maps</Link>
           <Link href="/search" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Search</Link>
