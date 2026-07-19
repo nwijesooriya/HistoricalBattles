@@ -18,6 +18,7 @@ export default function Header() {
       const stored = localStorage.getItem('theme');
       if (stored === 'light' || stored === 'dark') {
         setTheme(stored);
+        document.documentElement.setAttribute('data-theme', stored);
       }
     } catch (e) {
       console.error('Failed to read theme from localStorage', e);
