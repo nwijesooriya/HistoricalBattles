@@ -44,12 +44,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${cinzel.variable}`} suppressHydrationWarning>
       <head>
-        <script
-          id="theme-init"
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("theme");if(t){document.documentElement.setAttribute("data-theme",t)}else{document.documentElement.setAttribute("data-theme","dark")}}catch(e){}})()`,
-          }}
-        />
       </head>
       <body suppressHydrationWarning>
         <div className="page-wrapper">

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useSyncExternalStore } from 'react';
 import RomanLegionary from './units/RomanLegionary';
 import MongolRider from './units/MongolRider';
@@ -33,10 +34,25 @@ function getMotionPreference() {
 
 export default function HistoricalProcession() {
   const reducedMotion = useSyncExternalStore(subscribeToMotion, getMotionPreference, () => false);
-  const unit = getRandomUnit();
-  const direction = getRandomDirection();
+  const [mounted, setMounted] = useState(false);
+  const [unit, setUnit] = useState(units[0]);
+  const [direction, setDirection] = useState<Direction>('left-to-right');
 
-  if (!unit) return null;
+  useEffect(() => {
+    setMounted(true);
+    setUnit(getRandomUnit());
+    setDirection(getRandomDirection());
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="procession-container" aria-hidden="true">
+        <div className="procession-unit" style={{ position: 'relative', bottom: 'auto', left: '10%', width: 'clamp(80px, 12vw, 140px)' }}>
+          <RomanLegionary />
+        </div>
+      </div>
+    );
+  }
 
   const UnitComponent = unit.component;
   const speedClass = unit.speed === 'slow' ? 'slow' : 'fast';
