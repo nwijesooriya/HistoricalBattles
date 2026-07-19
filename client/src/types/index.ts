@@ -7,6 +7,7 @@ export interface ImageAsset {
   bytes?: number;
   originalFilename?: string;
   altText?: string;
+  opacity?: number;
 }
 
 export interface Region {
@@ -15,6 +16,7 @@ export interface Region {
   slug: string;
   description: string;
   image: ImageAsset | null;
+  imageOpacity: number;
   createdAt: string;
   updatedAt: string;
 }

@@ -16,12 +16,19 @@ interface RegionCardProps {
 
 export default function RegionCard({ region }: RegionCardProps) {
   const icon = regionIcons[region.slug] || '🌐';
+  const imageOpacity = region.imageOpacity ?? region.image?.opacity ?? 1;
 
   return (
     <Link href={`/region/${region.slug}`} className="region-card" id={`region-${region.slug}`}>
       {/* Background image */}
       {region.image?.url && (
-        <div className="region-card-image" style={{ backgroundImage: `url(${region.image.url})` }} />
+        <div
+          className="region-card-image"
+          style={{
+            backgroundImage: `url(${region.image.url})`,
+            opacity: imageOpacity,
+          }}
+        />
       )}
 
       {/* Gradient overlay for readability */}

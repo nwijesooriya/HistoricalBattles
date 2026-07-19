@@ -50,19 +50,7 @@ export default function AdminRegionsPage() {
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState('');
-
-  useEffect(() => {
-    checkAuthAndFetch();
-  }, []);
-
-  const checkAuthAndFetch = async () => {
-    const token = localStorage.getItem('admin_token');
-    if (!token) {
-      router.push('/admin/login');
-      return;
-    }
-    fetchRegions();
-  };
+  const [imageOpacity, setImageOpacity] = useState(0.7);
 
   const fetchRegions = async () => {
     try {
@@ -87,6 +75,21 @@ export default function AdminRegionsPage() {
     }
   };
 
+  const checkAuthAndFetch = async () => {
+    const token = localStorage.getItem('admin_token');
+    if (!token) {
+      router.push('/admin/login');
+      return;
+    }
+    fetchRegions();
+  };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    checkAuthAndFetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
@@ -101,6 +104,7 @@ export default function AdminRegionsPage() {
       const payload = new FormData();
       payload.append('name', formData.name);
       payload.append('description', formData.description);
+      payload.append('imageOpacity', String(imageOpacity));
 
       if (imageFile) {
         payload.append('image', imageFile);
@@ -124,6 +128,7 @@ export default function AdminRegionsPage() {
       setFormData({ name: '', description: '' });
       setImageFile(null);
       setImagePreview('');
+      setImageOpacity(0.7);
       fetchRegions();
     } catch (error) {
       console.error('Failed to save region:', error);
@@ -139,6 +144,7 @@ export default function AdminRegionsPage() {
     });
     setImageFile(null);
     setImagePreview(region.image?.url || '');
+    setImageOpacity(region.imageOpacity ?? 0.7);
     setShowForm(true);
     // Smooth scroll back up to the form
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -174,6 +180,7 @@ export default function AdminRegionsPage() {
     setFormData({ name: '', description: '' });
     setImageFile(null);
     setImagePreview('');
+    setImageOpacity(0.7);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -307,7 +314,8 @@ export default function AdminRegionsPage() {
                         <img 
                           src={imagePreview} 
                           alt="Region preview" 
-                          className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-500" 
+                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                          style={{ opacity: imageOpacity }}
                           onError={(e) => {
                             (e.target as HTMLElement).style.display = 'none';
                           }}
@@ -324,6 +332,31 @@ export default function AdminRegionsPage() {
                         </div>
                       </div>
                     )}
+                  </div>
+
+                  {/* Transparency Slider */}
+                  <div>
+                    <label className="block text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-2">
+                      Image Transparency
+                    </label>
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.05"
+                        value={imageOpacity}
+                        onChange={(e) => setImageOpacity(parseFloat(e.target.value))}
+                        className="flex-1 h-2 bg-[var(--color-border)] rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                      />
+                      <span className="text-xs font-mono text-[var(--color-text-secondary)] w-10 text-right">
+                        {Math.round(imageOpacity * 100)}%
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-[10px] text-[var(--color-text-muted)] mt-1">
+                      <span>Solid</span>
+                      <span>Transparent</span>
+                    </div>
                   </div>
                 </div>
               </div>

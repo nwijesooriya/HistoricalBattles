@@ -18,7 +18,7 @@ export default function Footer() {
         <div className="footer-links-group">
           <h4 className="footer-links-title">Explore</h4>
           <div className="footer-links">
-            <Link href="/" className="footer-link">Regions</Link>
+            <Link href="/" className="footer-link">Home</Link>
             <Link href="/timeline" className="footer-link">Timeline</Link>
             <Link href="/map" className="footer-link">Maps</Link>
             <Link href="/search" className="footer-link">Search</Link>

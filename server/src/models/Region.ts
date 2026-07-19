@@ -8,6 +8,7 @@ export interface IRegion extends Document {
   slug: string;
   description: string;
   image?: ImageMetadata;
+  imageOpacity?: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -31,6 +32,12 @@ const regionSchema = new Schema<IRegion>(
     image: {
       type: imageMetadataSchema,
       default: undefined,
+    },
+    imageOpacity: {
+      type: Number,
+      default: 1,
+      min: 0,
+      max: 1,
     },
   },
   {

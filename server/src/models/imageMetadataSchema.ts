@@ -12,6 +12,7 @@ export const imageMetadataSchema = new Schema<ImageMetadata>(
     bytes: { type: Number, default: undefined },
     originalFilename: { type: String, default: '' },
     altText: { type: String, default: '' },
+    opacity: { type: Number, default: 1 },
   },
   { _id: false }
 );

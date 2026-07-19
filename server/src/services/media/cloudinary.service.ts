@@ -58,6 +58,7 @@ export class CloudinaryService {
         format: result.format,
         bytes: result.bytes,
         originalFilename: options.filename,
+        opacity: options.opacity,
       };
     } catch (error) {
       if (error instanceof ApiError) {

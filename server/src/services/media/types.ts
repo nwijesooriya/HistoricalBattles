@@ -7,12 +7,14 @@ export interface ImageMetadata {
   bytes?: number;
   originalFilename?: string;
   altText?: string;
+  opacity?: number;
 }
 
 export interface UploadImageOptions {
   folder: string;
   filename?: string;
   altText?: string;
+  opacity?: number;
 }
 
 export interface ReplaceImageOptions extends UploadImageOptions {

@@ -2,6 +2,7 @@ import { getRegions } from '@/lib/api';
 import RegionCard from '@/components/cards/RegionCard';
 import { Metadata } from 'next';
 import { Region } from '@/types';
+import HistoricalProcession from '@/components/hero/HistoricalProcession';
 
 export const metadata: Metadata = {
   title: 'Historical Atlas — Explore World War History',
@@ -26,6 +27,7 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-bg" />
+        <HistoricalProcession />
         <div className="hero-content">
           <h1 className="hero-title">
             <span className="hero-title-accent">Explore</span> the History

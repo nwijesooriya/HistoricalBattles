@@ -18,6 +18,7 @@ export default function Header() {
       const stored = localStorage.getItem('theme');
       if (stored === 'light' || stored === 'dark') {
         setTheme(stored);
+        document.documentElement.setAttribute('data-theme', stored);
       }
     } catch (e) {
       console.error('Failed to read theme from localStorage', e);
@@ -107,7 +108,7 @@ export default function Header() {
         {/* Desktop Navigation */}
         <nav className="header-nav">
           <Link href="/" className="header-nav-link">
-            Regions
+            Home
           </Link>
           <Link href="/timeline" className="header-nav-link">
             Timeline
@@ -178,7 +179,7 @@ export default function Header() {
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
         <nav className="header-mobile-nav">
-          <Link href="/" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Regions</Link>
+          <Link href="/" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Home</Link>
           <Link href="/timeline" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Timeline</Link>
           <Link href="/map" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Maps</Link>
           <Link href="/search" className="header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Search</Link>

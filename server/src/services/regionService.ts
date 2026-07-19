@@ -31,12 +31,15 @@ export class RegionService {
       ? await MediaService.uploadImage(imageFile.buffer, {
           folder: `${env.CLOUDINARY_FOLDER_PREFIX}/regions`,
           filename: imageFile.originalname,
+          opacity: data.imageOpacity,
         })
       : undefined;
 
     return Region.create({
-      ...data,
+      name: data.name,
+      description: data.description,
       ...(image ? { image } : {}),
+      ...(data.imageOpacity !== undefined ? { imageOpacity: data.imageOpacity } : {}),
     });
   }
 
@@ -46,13 +49,16 @@ export class RegionService {
       throw ApiError.notFound('Region not found');
     }
 
-    Object.assign(region, data);
+    if (data.name !== undefined) region.name = data.name;
+    if (data.description !== undefined) region.description = data.description;
+    if (data.imageOpacity !== undefined) region.imageOpacity = data.imageOpacity;
 
     if (imageFile) {
       const image = await MediaService.replaceImage(imageFile.buffer, {
         folder: `${env.CLOUDINARY_FOLDER_PREFIX}/regions`,
         filename: imageFile.originalname,
         previousPublicId: region.image?.publicId || undefined,
+        opacity: data.imageOpacity,
       });
 
       region.image = image as ImageMetadata;
