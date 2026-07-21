@@ -54,7 +54,7 @@ export default function HistoricalProcession() {
   if (reducedMotion) {
     return (
       <div className="procession-container" aria-hidden="true">
-        <div className={`procession-unit ${direction}`} style={{ position: 'absolute', bottom: '8%', left: '10%', width: 'clamp(80px, 12vw, 140px)' }}>
+        <div className={`procession-unit ${direction}`} style={{ position: 'absolute', bottom: '4%', left: '10%', width: 'clamp(120px, 18vw, 220px)' }}>
           <UnitComponent />
         </div>
       </div>

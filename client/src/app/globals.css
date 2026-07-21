@@ -1206,11 +1206,12 @@ body::before {
 
 .procession-unit {
   position: absolute;
-  bottom: 8%;
-  width: clamp(80px, 12vw, 140px);
+  bottom: 4%;
+  width: clamp(120px, 18vw, 220px);
   height: auto;
-  opacity: 0.9;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+  color: var(--color-text);
+  opacity: 0.18;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
   will-change: transform;
 }
 
@@ -1426,9 +1427,9 @@ body::before {
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .procession-unit {
-    width: clamp(60px, 18vw, 100px);
-    bottom: 6%;
-    opacity: 0.7;
+    width: clamp(80px, 22vw, 140px);
+    bottom: 2%;
+    opacity: 0.14;
   }
 
   .procession-unit.slow {
