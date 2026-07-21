@@ -45,13 +45,7 @@ export default function HistoricalProcession() {
   }, []);
 
   if (!mounted) {
-    return (
-      <div className="procession-container" aria-hidden="true">
-        <div className="procession-unit" style={{ position: 'relative', bottom: 'auto', left: '10%', width: 'clamp(80px, 12vw, 140px)' }}>
-          <RomanLegionary />
-        </div>
-      </div>
-    );
+    return <div className="procession-container" aria-hidden="true" />;
   }
 
   const UnitComponent = unit.component;
@@ -60,7 +54,7 @@ export default function HistoricalProcession() {
   if (reducedMotion) {
     return (
       <div className="procession-container" aria-hidden="true">
-        <div className={`procession-unit ${direction}`} style={{ position: 'relative', bottom: 'auto', left: '10%', width: 'clamp(80px, 12vw, 140px)' }}>
+        <div className={`procession-unit ${direction}`} style={{ position: 'absolute', bottom: '8%', left: '10%', width: 'clamp(80px, 12vw, 140px)' }}>
           <UnitComponent />
         </div>
       </div>
@@ -69,14 +63,17 @@ export default function HistoricalProcession() {
 
   return (
     <div className="procession-container" aria-hidden="true">
-      {/* Dust particles behind the unit */}
-      <div className="procession-dust">
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="dust-particle" style={{ animationDelay: `${i * 0.2}s` }} />
-        ))}
+      {/* Motion trail 2 (furthest behind, most blurred) */}
+      <div className={`procession-unit ${direction} ${speedClass} procession-trail-2`}>
+        <UnitComponent />
       </div>
 
-      {/* The marching unit */}
+      {/* Motion trail 1 (closer, slightly blurred) */}
+      <div className={`procession-unit ${direction} ${speedClass} procession-trail-1`}>
+        <UnitComponent />
+      </div>
+
+      {/* The main unit */}
       <div className={`procession-unit ${direction} ${speedClass}`}>
         <UnitComponent />
       </div>
