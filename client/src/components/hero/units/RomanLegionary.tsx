@@ -2,66 +2,108 @@ import React from 'react';
 
 export default function RomanLegionary() {
   return (
-    <svg viewBox="0 0 120 180" fill="none" xmlns="http://www.w3.org/2000/svg" className="procession-unit">
-      {/* Shadow */}
-      <ellipse cx="60" cy="170" rx="30" ry="6" fill="rgba(0,0,0,0.3)" />
-      
-      {/* Legs with marching animation */}
+    <svg viewBox="0 0 100 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Ground shadow */}
+      <ellipse cx="50" cy="155" rx="28" ry="4" fill="rgba(0,0,0,0.25)" />
+
+      {/* Back leg — marching gait */}
       <g className="gait-leg-left">
-        <path d="M50 110 L45 150 L40 165" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-        <path d="M40 165 L35 170 L50 170 L45 165" fill="currentColor" />
+        <path
+          d="M42 100 C38 115 36 130 34 140 C33 144 30 146 28 148 L24 148 L24 152 L38 152 L38 148 C37 146 35 144 36 140 C38 130 42 116 46 100 Z"
+          fill="currentColor"
+        />
       </g>
+
+      {/* Front leg */}
       <g className="gait-leg-right">
-        <path d="M70 110 L75 150 L80 165" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-        <path d="M80 165 L85 170 L70 170 L75 165" fill="currentColor" />
+        <path
+          d="M56 100 C60 115 62 130 64 140 C65 144 68 146 70 148 L74 148 L74 152 L60 152 L60 148 C61 146 63 144 62 140 C60 130 56 116 52 100 Z"
+          fill="currentColor"
+        />
       </g>
-      
-      {/* Body / Tunic with lorica segmentata (plate armor) */}
-      <path d="M45 65 L75 65 L78 115 L42 115 Z" fill="currentColor" />
-      
-      {/* Armor plates */}
-      <path d="M47 68 L73 68 L73 75 L47 75 Z" fill="rgba(0,0,0,0.25)" />
-      <path d="M47 78 L73 78 L73 85 L47 85 Z" fill="rgba(0,0,0,0.25)" />
-      <path d="M47 88 L73 88 L73 95 L47 95 Z" fill="rgba(0,0,0,0.25)" />
-      <path d="M47 98 L73 98 L73 105 L47 105 Z" fill="rgba(0,0,0,0.25)" />
-      
-      {/* Belt */}
-      <rect x="42" y="100" width="36" height="6" fill="rgba(0,0,0,0.3)" />
-      
-      {/* Shield (scutum) - left arm */}
-      <g>
-        <ellipse cx="35" cy="85" rx="14" ry="22" fill="currentColor" />
-        <ellipse cx="35" cy="85" rx="10" ry="18" fill="rgba(0,0,0,0.2)" />
-        <path d="M35 67 L35 103" stroke="rgba(0,0,0,0.3)" strokeWidth="2" />
-        <path d="M25 85 L45 85" stroke="rgba(0,0,0,0.3)" strokeWidth="2" />
-      </g>
-      
-      {/* Spear (pilum) - right arm */}
-      <g>
-        <line x1="85" y1="60" x2="95" y2="10" stroke="currentColor" strokeWidth="3" />
-        <path d="M95 10 L92 20 L98 20 Z" fill="currentColor" />
-        <path d="M85 60 L82 70 L88 70 Z" fill="currentColor" />
-      </g>
-      
-      {/* Head with galea helmet */}
+
+      {/* Tunic skirt / pteruges (leather strips below belt) */}
+      <path
+        d="M36 96 L36 108 L40 108 L40 96 M44 96 L44 108 L48 108 L48 96 M52 96 L52 108 L56 108 L56 96 M60 96 L60 108 L64 108 L64 96"
+        fill="currentColor"
+      />
+
+      {/* Torso — lorica segmentata (segmented plate armor) */}
+      <path
+        d="M34 52 C34 48 40 44 50 44 C60 44 66 48 66 52 L68 96 L32 96 Z"
+        fill="currentColor"
+      />
+      {/* Armor plate lines for detail */}
+      <path d="M35 58 L65 58 M34 66 L66 66 M33 74 L67 74 M33 82 L67 82 M34 90 L66 90" stroke="rgba(0,0,0,0.2)" strokeWidth="1.5" />
+
+      {/* Belt / cingulum */}
+      <rect x="32" y="92" width="36" height="5" rx="1" fill="currentColor" />
+      <rect x="32" y="92" width="36" height="5" rx="1" fill="rgba(0,0,0,0.25)" />
+
+      {/* Left arm (behind shield) */}
+      <path
+        d="M34 54 C26 60 22 68 24 76"
+        stroke="currentColor" strokeWidth="7" strokeLinecap="round" fill="none"
+      />
+
+      {/* Scutum shield (large curved rectangular Roman shield) */}
+      <path
+        d="M6 44 C16 40 28 42 28 44 L26 118 C26 120 16 122 6 118 Z"
+        fill="currentColor"
+      />
+      {/* Shield boss (metal center) */}
+      <ellipse cx="17" cy="80" rx="5" ry="6" fill="rgba(0,0,0,0.25)" />
+      <ellipse cx="17" cy="80" rx="2.5" ry="3" fill="currentColor" />
+      {/* Shield decoration — vertical stripe + wings */}
+      <line x1="17" y1="54" x2="17" y2="108" stroke="rgba(0,0,0,0.15)" strokeWidth="2" />
+
+      {/* Gladius (short sword) at right hip */}
+      <path
+        d="M68 88 L72 86 L78 118 L74 120 Z"
+        fill="currentColor"
+      />
+      <path d="M70 86 L74 84 L72 82 L68 84 Z" fill="currentColor" /> {/* crossguard */}
+
+      {/* Right arm holding pilum */}
+      <path
+        d="M66 54 C74 60 78 66 76 72"
+        stroke="currentColor" strokeWidth="7" strokeLinecap="round" fill="none"
+      />
+
+      {/* Pilum (heavy javelin) */}
+      <line x1="78" y1="148" x2="78" y2="18" stroke="currentColor" strokeWidth="2.5" />
+      <line x1="78" y1="18" x2="78" y2="4" stroke="currentColor" strokeWidth="1.5" /> {/* iron shank */}
+      <path d="M78 0 L75 6 L81 6 Z" fill="currentColor" /> {/* spear tip */}
+
+      {/* Head & helmet with body bob */}
       <g className="gait-body-bob">
-        <circle cx="60" cy="45" r="14" fill="currentColor" />
-        {/* Helmet plume */}
-        <path d="M48 38 Q60 20 72 38" stroke="currentColor" strokeWidth="4" strokeLinecap="round" fill="none" />
-        {/* Helmet brim */}
-        <path d="M46 42 L74 42" stroke="rgba(0,0,0,0.4)" strokeWidth="3" strokeLinecap="round" />
-        {/* Helmet cheek guards */}
-        <path d="M48 45 L46 55" stroke="rgba(0,0,0,0.3)" strokeWidth="3" strokeLinecap="round" />
-        <path d="M72 45 L74 55" stroke="rgba(0,0,0,0.3)" strokeWidth="3" strokeLinecap="round" />
+        {/* Neck */}
+        <rect x="44" y="40" width="12" height="8" fill="currentColor" />
+        
+        {/* Head */}
+        <ellipse cx="50" cy="32" rx="10" ry="11" fill="currentColor" />
+        
+        {/* Galea helmet dome */}
+        <path d="M40 30 C40 18 60 18 60 30 Z" fill="currentColor" />
+        
+        {/* Helmet browridge */}
+        <path d="M38 32 L62 32" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+        
+        {/* Cheek guards */}
+        <path d="M40 34 C38 38 39 42 42 44" fill="currentColor" />
+        <path d="M60 34 C62 38 61 42 58 44" fill="currentColor" />
+        
+        {/* Neck guard (back of helmet) */}
+        <path d="M60 32 C64 34 66 38 64 42" fill="currentColor" />
+        
+        {/* Crest / plume — large and flowing */}
+        <path
+          d="M38 20 C42 6 50 2 58 4 C66 6 70 14 62 20 L50 18 Z"
+          fill="currentColor"
+        />
+        {/* Plume holder ridge */}
+        <line x1="50" y1="18" x2="50" y2="22" stroke="currentColor" strokeWidth="3" />
       </g>
-      
-      {/* Arms */}
-      <path d="M45 70 L35 85" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
-      <path d="M75 70 L85 60" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
-      
-      {/* Gladius (sword) at hip */}
-      <line x1="78" y1="100" x2="85" y2="85" stroke="currentColor" strokeWidth="2" />
-      <path d="M85 85 L83 90 L87 90 Z" fill="currentColor" />
     </svg>
   );
 }
