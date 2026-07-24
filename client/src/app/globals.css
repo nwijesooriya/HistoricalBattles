@@ -1690,3 +1690,258 @@ body::before {
     grid-template-columns: 1fr;
   }
 }
+
+/* KnightShowcase visual‑only tweaks */
+.knight-controls-bar,
+.knight-play-overlay {
+  display: none !important;
+}
+
+
+/* ─── Knight Showcase Component ─── */
+.knight-showcase-container {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+  background: var(--color-surface);
+  overflow: hidden;
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.knight-showcase-container:hover {
+  border-color: var(--color-accent-dim);
+  box-shadow: var(--shadow-lg), 0 0 35px var(--color-accent-glow);
+}
+
+.knight-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 16 / 9;
+}
+
+.knight-render-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: filter var(--transition-base);
+}
+
+/* Light mode specific mix blend */
+[data-theme="light"] .knight-render-canvas {
+  mix-blend-mode: multiply;
+}
+
+.knight-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(1px);
+  transition: opacity var(--transition-base);
+  opacity: 1;
+}
+
+.knight-play-overlay:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.knight-center-play {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #000;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
+  padding-left: 4px;
+}
+
+.knight-center-play:hover {
+  background: var(--color-accent-hover);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 15px var(--color-accent-glow);
+}
+
+.knight-center-play svg {
+  width: 28px;
+  height: 28px;
+}
+
+.knight-controls-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-md) var(--space-lg);
+  background: linear-gradient(to top, rgba(10, 10, 18, 0.95), rgba(10, 10, 18, 0.7) 70%, transparent);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity var(--transition-base), transform var(--transition-base);
+  z-index: 10;
+}
+
+/* Light Mode bar gradient adjustment */
+[data-theme="light"] .knight-controls-bar {
+  background: linear-gradient(to top, rgba(245, 240, 232, 0.95), rgba(245, 240, 232, 0.7) 70%, transparent);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.knight-showcase-container:hover .knight-controls-bar,
+.knight-controls-bar:focus-within {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.knight-controls-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+.knight-control-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  padding: var(--space-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.knight-control-btn:hover {
+  color: var(--color-accent);
+  background-color: var(--color-surface-hover);
+  transform: scale(1.05);
+}
+
+.knight-control-btn svg.control-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.knight-time-display {
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+  color: var(--color-text-secondary);
+  min-width: 80px;
+  text-align: center;
+}
+
+.knight-seek-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--color-border);
+  height: 4px;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.knight-seek-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.knight-seek-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  cursor: pointer;
+  margin-top: -4px;
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.knight-seek-slider::-webkit-slider-thumb:hover {
+  background: var(--color-accent-hover);
+  transform: scale(1.2);
+}
+
+.knight-volume-slider {
+  width: 70px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--color-border);
+  height: 4px;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.knight-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  cursor: pointer;
+  margin-top: -3px;
+  transition: transform var(--transition-fast);
+}
+
+.knight-volume-slider::-webkit-slider-thumb:hover {
+  background: var(--color-accent-hover);
+  transform: scale(1.2);
+}
+
+.knight-visualizer-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 18px;
+  opacity: 0.85;
+}
+
+.knight-visualizer-canvas {
+  width: 35px;
+  height: 18px;
+  display: block;
+}
+
+/* Knight Showcase */
+.knight-showcase-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto var(--space-2xl);
+  background: var(--color-bg);
+  z-index: 10;
+}
+
+.knight-render-canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
