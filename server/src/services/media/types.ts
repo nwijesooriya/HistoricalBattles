@@ -10,6 +10,17 @@ export interface ImageMetadata {
   opacity?: number;
 }
 
+export interface VideoMetadata {
+  publicId: string;
+  url: string;
+  width?: number;
+  height?: number;
+  format?: string;
+  bytes?: number;
+  duration?: number;
+  originalFilename?: string;
+}
+
 export interface UploadImageOptions {
   folder: string;
   filename?: string;
@@ -18,6 +29,15 @@ export interface UploadImageOptions {
 }
 
 export interface ReplaceImageOptions extends UploadImageOptions {
+  previousPublicId?: string;
+}
+
+export interface UploadVideoOptions {
+  folder: string;
+  filename?: string;
+}
+
+export interface ReplaceVideoOptions extends UploadVideoOptions {
   previousPublicId?: string;
 }
 
