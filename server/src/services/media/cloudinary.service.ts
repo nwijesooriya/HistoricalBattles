@@ -2,7 +2,7 @@ import { v2 as cloudinary } from 'cloudinary';
 
 import { env } from '../../config/env';
 import { ApiError } from '../../utils/ApiError';
-import { ImageMetadata, UploadImageOptions } from './types';
+import { ImageMetadata, UploadImageOptions, UploadVideoOptions, VideoMetadata } from './types';
 
 cloudinary.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
@@ -93,5 +93,69 @@ export class CloudinaryService {
       secure: true,
       transformation: env.CLOUDINARY_TRANSFORMATIONS,
     });
+  }
+
+  static async uploadVideo(buffer: Buffer, options: UploadVideoOptions): Promise<VideoMetadata> {
+    try {
+      const result = await new Promise<any>((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            folder: options.folder,
+            resource_type: 'video',
+            public_id: buildResourceName(options.filename),
+          },
+          (error, uploadResult) => {
+            if (error) {
+              reject(error);
+              return;
+            }
+
+            resolve(uploadResult);
+          }
+        );
+
+        stream.end(buffer);
+      });
+
+      if (!result?.secure_url || !result?.public_id) {
+        throw ApiError.internal('Cloudinary video upload returned an invalid response');
+      }
+
+      return {
+        publicId: result.public_id,
+        url: result.secure_url,
+        width: result.width,
+        height: result.height,
+        format: result.format,
+        bytes: result.bytes,
+        duration: result.duration,
+        originalFilename: options.filename,
+      };
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+
+      const cloudinaryError = error as Error & { http_code?: number };
+      const message = cloudinaryError.message || 'Failed to upload video to Cloudinary';
+
+      if (cloudinaryError.http_code && cloudinaryError.http_code < 500) {
+        throw ApiError.badRequest(message);
+      }
+
+      throw ApiError.internal(message);
+    }
+  }
+
+  static async deleteVideo(publicId: string): Promise<void> {
+    if (!publicId) {
+      throw ApiError.badRequest('Video publicId is required for deletion');
+    }
+
+    try {
+      await cloudinary.uploader.destroy(publicId, { resource_type: 'video' });
+    } catch {
+      throw ApiError.internal('Failed to delete video from Cloudinary');
+    }
   }
 }
