@@ -2,7 +2,8 @@ import { getRegions } from '@/lib/api';
 import RegionCard from '@/components/cards/RegionCard';
 import { Metadata } from 'next';
 import { Region } from '@/types';
-import HistoricalProcession from '@/components/hero/HistoricalProcession';
+import KnightShowcase from '@/components/hero/KnightShowcase';
+// import HistoricalProcession from '@/components/hero/HistoricalProcession'; // Disabled - replaced with Lottie animation
 
 export const metadata: Metadata = {
   title: 'Historical Atlas — Explore World War History',
@@ -27,7 +28,7 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-bg" />
-        <HistoricalProcession />
+        {/* <HistoricalProcession /> */} {/* Disabled - replaced with Lottie animation */}
         <div className="hero-content">
           <h1 className="hero-title">
             <span className="hero-title-accent">Explore</span> the History
@@ -56,6 +57,11 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Interactive Knight Showcase Section */}
+      <section className="section" style={{ display: 'flex', justifyContent: 'center' }}>
+        <KnightShowcase />
       </section>
 
       {/* Regions Grid */}
