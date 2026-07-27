@@ -10,6 +10,7 @@ import battleRoutes from './routes/battleRoutes';
 import commanderRoutes from './routes/commanderRoutes';
 import weaponRoutes from './routes/weaponRoutes';
 import sourceRoutes from './routes/sourceRoutes';
+import homepageRoutes from './routes/homepageRoutes';
 import { errorHandler } from './middlewares/errorHandler';
 
 const app = express();
@@ -40,6 +41,7 @@ app.use('/api/v1/battles', battleRoutes);
 app.use('/api/v1/commanders', commanderRoutes);
 app.use('/api/v1/weapons', weaponRoutes);
 app.use('/api/v1/sources', sourceRoutes);
+app.use('/api/v1/homepage-settings', homepageRoutes);
 
 // ─── Health check ───
 app.get('/api/v1/health', (_req, res) => {

@@ -1,4 +1,4 @@
-import { ApiResponse, Region, Era, AuthResponse } from '@/types';
+import { ApiResponse, AuthResponse, Era, HomepageSettings, Region } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
 
@@ -75,6 +75,11 @@ export async function getCurrentAdmin(): Promise<ApiResponse<AuthResponse>> {
 
 export async function getRegions(): Promise<Region[]> {
   const res = await apiFetch<ApiResponse<Region[]>>('/regions');
+  return res.data;
+}
+
+export async function getHomepageSettings(): Promise<HomepageSettings> {
+  const res = await apiFetch<ApiResponse<HomepageSettings>>('/homepage-settings');
   return res.data;
 }
 

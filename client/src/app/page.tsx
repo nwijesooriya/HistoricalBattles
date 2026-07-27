@@ -1,8 +1,9 @@
-import { getRegions } from '@/lib/api';
+import { getHomepageSettings, getRegions } from '@/lib/api';
+import { createDefaultHomepageSettings } from '@/lib/homepage';
 import RegionCard from '@/components/cards/RegionCard';
 import { Metadata } from 'next';
-import { Region } from '@/types';
-import KnightShowcase from '@/components/hero/KnightShowcase';
+import { HomepageSettings, Region } from '@/types';
+import HomepageHero from '@/components/hero/HomepageHero';
 // import HistoricalProcession from '@/components/hero/HistoricalProcession'; // Disabled - replaced with Lottie animation
 
 export const metadata: Metadata = {
@@ -15,6 +16,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   let regions: Region[] = [];
+  let homepageSettings: HomepageSettings = createDefaultHomepageSettings();
   let error: string | null = null;
 
   try {
@@ -23,46 +25,15 @@ export default async function HomePage() {
     error = e instanceof Error ? e.message : 'Failed to load regions';
   }
 
+  try {
+    homepageSettings = await getHomepageSettings();
+  } catch {
+    homepageSettings = createDefaultHomepageSettings();
+  }
+
   return (
     <>
-      {/* Hero Section */}
-      <section className="hero">
-        <div className="hero-bg" />
-        {/* <HistoricalProcession /> */} {/* Disabled - replaced with Lottie animation */}
-        <div className="hero-content">
-          <h1 className="hero-title">
-            <span className="hero-title-accent">Explore</span> the History
-            <br />
-            of World Warfare
-          </h1>
-          <p className="hero-subtitle">
-            Journey through millennia of military history — from ancient empires to modern
-            conflicts. Discover the battles, commanders, and strategies that shaped
-            civilizations.
-          </p>
-          <div className="hero-stats">
-            <div className="hero-stat">
-              <span className="hero-stat-number">{regions.length}</span>
-              <span className="hero-stat-label">Regions</span>
-            </div>
-            <div className="hero-stat-divider" />
-            <div className="hero-stat">
-              <span className="hero-stat-number">9</span>
-              <span className="hero-stat-label">Historical Eras</span>
-            </div>
-            <div className="hero-stat-divider" />
-            <div className="hero-stat">
-              <span className="hero-stat-number">5000+</span>
-              <span className="hero-stat-label">Years of History</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Interactive Knight Showcase Section */}
-      <section className="section" style={{ display: 'flex', justifyContent: 'center' }}>
-        <KnightShowcase />
-      </section>
+      <HomepageHero settings={homepageSettings} />
 
       {/* Regions Grid */}
       <section className="section">

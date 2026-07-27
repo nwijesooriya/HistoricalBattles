@@ -228,6 +228,8 @@ export default function AdminDashboard() {
 
     { title: 'Sources', count: stats.sources, path: '/admin/sources', color: 'bg-indigo-500' },
 
+    { title: 'Homepage', count: 1, path: '/admin/homepage', color: 'bg-slate-700' },
+
   ];
 
 

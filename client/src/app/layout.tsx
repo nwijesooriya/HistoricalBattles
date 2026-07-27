@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Inter, Cinzel } from 'next/font/google';
 import Header from '@/components/layout/Header';
 import ConditionalLayout from '@/components/layout/ConditionalLayout';
+import { KnightShowcaseProvider } from '@/context/KnightShowcaseContext';
+
 import './globals.css';
 
 const inter = Inter({
@@ -43,15 +45,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${cinzel.variable}`} suppressHydrationWarning>
-      <head>
-      </head>
+      <head />
       <body suppressHydrationWarning>
-        <div className="page-wrapper">
-          <Header />
-          <ConditionalLayout>
-            <main className="page-main">{children}</main>
-          </ConditionalLayout>
-        </div>
+        <div id="admin-portal"></div>
+        <KnightShowcaseProvider>
+          <div className="page-wrapper">
+            <Header />
+            <ConditionalLayout>
+              <main className="page-main">{children}</main>
+            </ConditionalLayout>
+          </div>
+        </KnightShowcaseProvider>
       </body>
     </html>
   );

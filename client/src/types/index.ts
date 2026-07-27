@@ -117,6 +117,135 @@ export interface Source {
   updatedAt: string;
 }
 
+export interface HomepageVideoAsset {
+  publicId: string;
+  url: string;
+  width?: number;
+  height?: number;
+  format?: string;
+  bytes?: number;
+  duration?: number;
+  originalFilename?: string;
+}
+
+export interface HomepagePlaybackSettings {
+  autoplay: boolean;
+  loop: boolean;
+  muted: boolean;
+  volume: number;
+  playbackRate: number;
+}
+
+export interface HomepageAppearanceSettings {
+  width: number;
+  height: number;
+  scale: number;
+  positionX: number;
+  positionY: number;
+  rotation: number;
+  borderRadius: number;
+  objectFit: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
+  objectPosition: 'center' | 'top' | 'bottom' | 'left' | 'right' | 'custom';
+  customObjectPositionX?: number;
+  customObjectPositionY?: number;
+  opacity: number;
+  brightness: number;
+  contrast: number;
+  saturation: number;
+  blur: number;
+  grayscale: number;
+  sepia: number;
+  hueRotation: number;
+}
+
+export interface HomepageThemeAppearance {
+  opacity: number;
+  brightness: number;
+  overlayColor: string;
+  overlayOpacity: number;
+}
+
+export interface HomepageResponsiveSettings {
+  scale: number;
+  positionX: number;
+  positionY: number;
+  width: number;
+  height: number;
+  overlayColor: string;
+  overlayOpacity: number;
+}
+
+export interface HomepageOverlaySettings {
+  type: 'solid' | 'gradient' | 'none';
+  color: string;
+  opacity: number;
+  gradientDirection: string;
+}
+
+export interface HomepageContentPanelSettings {
+  enabled: boolean;
+  backgroundOpacity: number;
+}
+
+export interface HomepageHeroText {
+  heading: string;
+  subtitle: string;
+  headingStyle: HomepageTextStyle;
+  subtitleStyle: HomepageTextStyle;
+  primaryButton: {
+    label: string;
+    href: string;
+  };
+  primaryButtonStyle: HomepageButtonStyle;
+  secondaryButton: {
+    label: string;
+    href: string;
+  };
+  secondaryButtonStyle: HomepageButtonStyle;
+}
+
+export interface HomepageTextStyle {
+  color: string;
+  bold: boolean;
+  italic: boolean;
+  underline: boolean;
+}
+
+export interface HomepageButtonStyle {
+  backgroundColor: string;
+  textColor: string;
+  borderColor: string;
+}
+
+export interface HomepageStatistic {
+  label: string;
+  value: string;
+}
+
+export interface HomepageSettings {
+  _id?: string;
+  singletonKey?: string;
+  heroVideo?: HomepageVideoAsset | null;
+  playbackSettings: HomepagePlaybackSettings;
+  appearanceSettings: HomepageAppearanceSettings;
+  themeSettings: {
+    light: HomepageThemeAppearance;
+    dark: HomepageThemeAppearance;
+  };
+  responsiveSettings: {
+    desktop: HomepageResponsiveSettings;
+    tablet: HomepageResponsiveSettings;
+    mobile: HomepageResponsiveSettings;
+  };
+  overlaySettings: HomepageOverlaySettings;
+  contentPanelSettings: HomepageContentPanelSettings;
+  heroText: HomepageHeroText;
+  statistics: HomepageStatistic[];
+  removeHeroVideo?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data: T;
