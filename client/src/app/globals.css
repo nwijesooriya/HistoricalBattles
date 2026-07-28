@@ -869,8 +869,8 @@ body::before {
 
 .region-card:hover {
   transform: translateY(-4px);
-  border-color: var(--color-border-hover);
-  box-shadow: var(--shadow-glow);
+  border-color: var(--color-accent-dim);
+  box-shadow: var(--shadow-glow), var(--shadow-lg);
 }
 
 .region-card-image {
@@ -888,12 +888,12 @@ body::before {
 .region-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(10, 10, 18, 0.25) 0%, rgba(10, 10, 18, 0.85) 100%);
-  z-index: 1;
+  background: linear-gradient(180deg, rgba(10, 10, 18, 0.3) 0%, rgba(10, 10, 18, 0.6) 45%, rgba(10, 10, 18, 0.95) 100%);
+  z-index: 2;
 }
 
 [data-theme="light"] .region-card-overlay {
-  background: linear-gradient(180deg, rgba(245, 240, 232, 0.15) 0%, rgba(245, 240, 232, 0.85) 100%);
+  background: linear-gradient(180deg, rgba(245, 240, 232, 0.2) 0%, rgba(245, 240, 232, 0.5) 45%, rgba(245, 240, 232, 0.98) 100%);
 }
 
 .region-card-bg {
@@ -911,33 +911,7 @@ body::before {
 
 .region-card-content {
   position: relative;
-  z-index: 3;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.region-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--color-accent-dim);
-  box-shadow: var(--shadow-glow), var(--shadow-lg);
-}
-
-.region-card-bg {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(201, 168, 76, 0.04) 0%, transparent 60%);
-  transition: opacity var(--transition-slow);
-}
-
-.region-card:hover .region-card-bg {
-  opacity: 1.5;
-  background: linear-gradient(135deg, rgba(201, 168, 76, 0.08) 0%, transparent 60%);
-}
-
-.region-card-content {
-  position: relative;
-  z-index: 1;
+  z-index: 10;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -960,6 +934,11 @@ body::before {
   color: var(--color-text);
   margin-bottom: var(--space-sm);
   transition: color var(--transition-fast);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .region-card-title {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .region-card:hover .region-card-title {
@@ -975,6 +954,11 @@ body::before {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .region-card-description {
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 .region-card-cta {
@@ -1051,27 +1035,38 @@ body::before {
 .region-hero-bg {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 50% 0%, var(--color-accent-glow) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 50% 0%, var(--color-accent-glow) 0%, transparent 60%);
   z-index: 1;
 }
 
 .region-hero-content {
   position: relative;
   z-index: 2;
-  max-width: 700px;
+  max-width: 760px;
   margin: 0 auto;
+  padding: var(--space-xl) var(--space-2xl);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-bg) 65%, transparent);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-lg);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .region-hero-content {
+  background: color-mix(in srgb, var(--color-bg) 75%, transparent);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.65);
 }
 
 .region-hero-title {
-  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
   color: var(--color-accent);
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
 }
 
 .region-hero-description {
   font-size: 1rem;
-  color: var(--color-text-secondary);
+  color: var(--color-text);
   line-height: 1.8;
   margin-bottom: var(--space-xl);
 }
