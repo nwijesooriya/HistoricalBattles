@@ -69,7 +69,7 @@ export const getKingdomsByEra = asyncHandler(async (req: Request, res: Response)
  */
 export const createKingdom = asyncHandler(async (req: Request, res: Response) => {
   const data = createKingdomSchema.parse(req.body);
-  const kingdom = await KingdomService.create(data);
+  const kingdom = await KingdomService.createWithImage(data, req.file);
 
   res.status(201).json({
     success: true,
@@ -85,7 +85,7 @@ export const createKingdom = asyncHandler(async (req: Request, res: Response) =>
 export const updateKingdom = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const data = updateKingdomSchema.parse(req.body);
-  const kingdom = await KingdomService.update(id as string, data);
+  const kingdom = await KingdomService.update(id as string, data, req.file);
 
   res.status(200).json({
     success: true,

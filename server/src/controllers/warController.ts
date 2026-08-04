@@ -69,7 +69,7 @@ export const getWarsByEra = asyncHandler(async (req: Request, res: Response) => 
  */
 export const createWar = asyncHandler(async (req: Request, res: Response) => {
   const data = createWarSchema.parse(req.body);
-  const war = await WarService.create(data);
+  const war = await WarService.createWithImage(data, req.file);
 
   res.status(201).json({
     success: true,
@@ -85,7 +85,7 @@ export const createWar = asyncHandler(async (req: Request, res: Response) => {
 export const updateWar = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const data = updateWarSchema.parse(req.body);
-  const war = await WarService.update(id as string, data);
+  const war = await WarService.update(id as string, data, req.file);
 
   res.status(200).json({
     success: true,

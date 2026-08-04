@@ -9,6 +9,7 @@ import {
   deleteKingdom,
 } from '../controllers/kingdomController';
 import { protect } from '../middlewares/auth';
+import { singleImageUpload } from '../middlewares/upload';
 
 const router = Router();
 
@@ -19,8 +20,8 @@ router.get('/region/:regionId', getKingdomsByRegion);
 router.get('/era/:eraId', getKingdomsByEra);
 
 // Protected routes (admin only)
-router.post('/', protect, createKingdom);
-router.put('/:id', protect, updateKingdom);
+router.post('/', protect, singleImageUpload('image'), createKingdom);
+router.put('/:id', protect, singleImageUpload('image'), updateKingdom);
 router.delete('/:id', protect, deleteKingdom);
 
 export default router;

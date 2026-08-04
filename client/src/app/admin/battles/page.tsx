@@ -23,8 +23,9 @@ export default function AdminBattlesPage() {
     location: '',
     outcome: '',
     casualties: '',
-    image: '',
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState('');
 
   useEffect(() => {
     checkAuthAndFetch();
@@ -139,21 +140,37 @@ export default function AdminBattlesPage() {
         : `${API_BASE_URL}/battles`;
       
       const method = editingBattle ? 'PUT' : 'POST';
+      const payload = new FormData();
+
+      payload.append('name', formData.name);
+      payload.append('description', formData.description);
+      payload.append('warId', formData.warId);
+      payload.append('regionId', formData.regionId);
+      payload.append('eraId', formData.eraId);
+      payload.append('date', formData.date);
+      payload.append('location', formData.location);
+      payload.append('outcome', formData.outcome);
+      payload.append('casualties', formData.casualties);
+
+      if (imageFile) {
+        payload.append('image', imageFile);
+      }
 
       const res = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json',
           ...(token && { Authorization: `Bearer ${token}` }),
         },
-        body: JSON.stringify(formData),
+        body: payload,
       });
 
       if (!res.ok) throw new Error('Failed to save battle');
 
       setShowForm(false);
       setEditingBattle(null);
-      setFormData({ name: '', description: '', warId: '', regionId: '', eraId: '', date: '', location: '', outcome: '', casualties: '', image: '' });
+      setFormData({ name: '', description: '', warId: '', regionId: '', eraId: '', date: '', location: '', outcome: '', casualties: '' });
+      setImageFile(null);
+      setImagePreview('');
       fetchBattles();
     } catch (error) {
       console.error('Failed to save battle:', error);
@@ -173,8 +190,9 @@ export default function AdminBattlesPage() {
       location: battle.location,
       outcome: battle.outcome,
       casualties: battle.casualties,
-      image: battle.image?.url || '',
     });
+    setImageFile(null);
+    setImagePreview(battle.image?.url || '');
     setShowForm(true);
   };
 
@@ -205,7 +223,9 @@ export default function AdminBattlesPage() {
   const handleCancel = () => {
     setShowForm(false);
     setEditingBattle(null);
-    setFormData({ name: '', description: '', warId: '', regionId: '', eraId: '', date: '', location: '', outcome: '', casualties: '', image: '' });
+    setFormData({ name: '', description: '', warId: '', regionId: '', eraId: '', date: '', location: '', outcome: '', casualties: '' });
+    setImageFile(null);
+    setImagePreview('');
   };
 
   if (loading) {
@@ -352,13 +372,29 @@ export default function AdminBattlesPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Image URL</label>
+                    <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Image Upload</label>
                     <input
-                      type="text"
-                      value={formData.image}
-                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0] || null;
+                        if (imagePreview.startsWith('blob:')) {
+                          URL.revokeObjectURL(imagePreview);
+                        }
+                        setImageFile(file);
+                        setImagePreview(file ? URL.createObjectURL(file) : editingBattle?.image?.url || '');
+                      }}
                       className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                     />
+                    {imagePreview && (
+                      <div className="mt-3">
+                        <img
+                          src={imagePreview}
+                          alt="Battle image preview"
+                          className="h-40 w-full rounded-md object-cover border border-[var(--color-border)]"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="flex space-x-3">

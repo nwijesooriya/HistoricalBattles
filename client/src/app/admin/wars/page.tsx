@@ -19,8 +19,9 @@ export default function AdminWarsPage() {
     eraId: '',
     startYear: 0,
     endYear: 0,
-    image: '',
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState('');
 
   useEffect(() => {
     checkAuthAndFetch();
@@ -113,21 +114,34 @@ export default function AdminWarsPage() {
         : `${API_BASE_URL}/wars`;
       
       const method = editingWar ? 'PUT' : 'POST';
+      const payload = new FormData();
+
+      payload.append('name', formData.name);
+      payload.append('description', formData.description);
+      payload.append('regionId', formData.regionId);
+      payload.append('eraId', formData.eraId);
+      payload.append('startYear', String(formData.startYear));
+      payload.append('endYear', String(formData.endYear));
+
+      if (imageFile) {
+        payload.append('image', imageFile);
+      }
 
       const res = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json',
           ...(token && { Authorization: `Bearer ${token}` }),
         },
-        body: JSON.stringify(formData),
+        body: payload,
       });
 
       if (!res.ok) throw new Error('Failed to save war');
 
       setShowForm(false);
       setEditingWar(null);
-      setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: 0, endYear: 0, image: '' });
+      setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: 0, endYear: 0 });
+      setImageFile(null);
+      setImagePreview('');
       fetchWars();
     } catch (error) {
       console.error('Failed to save war:', error);
@@ -144,8 +158,9 @@ export default function AdminWarsPage() {
       eraId: war.eraId,
       startYear: war.startYear,
       endYear: war.endYear,
-      image: war.image?.url || '',
     });
+    setImageFile(null);
+    setImagePreview(war.image?.url || '');
     setShowForm(true);
   };
 
@@ -176,7 +191,9 @@ export default function AdminWarsPage() {
   const handleCancel = () => {
     setShowForm(false);
     setEditingWar(null);
-    setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: 0, endYear: 0, image: '' });
+    setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: 0, endYear: 0 });
+    setImageFile(null);
+    setImagePreview('');
   };
 
   if (loading) {
@@ -288,13 +305,29 @@ export default function AdminWarsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Image URL</label>
+                  <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Image Upload</label>
                   <input
-                    type="text"
-                    value={formData.image}
-                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0] || null;
+                      if (imagePreview.startsWith('blob:')) {
+                        URL.revokeObjectURL(imagePreview);
+                      }
+                      setImageFile(file);
+                      setImagePreview(file ? URL.createObjectURL(file) : editingWar?.image?.url || '');
+                    }}
                     className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                   />
+                  {imagePreview && (
+                    <div className="mt-3">
+                      <img
+                        src={imagePreview}
+                        alt="War image preview"
+                        className="h-40 w-full rounded-md object-cover border border-[var(--color-border)]"
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="flex space-x-3">
                   <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
