@@ -17,8 +17,8 @@ export default function AdminKingdomsPage() {
     description: '',
     regionId: '',
     eraId: '',
-    startYear: 0,
-    endYear: 0,
+    startYear: '',
+    endYear: '',
     image: '',
   });
 
@@ -123,15 +123,18 @@ export default function AdminKingdomsPage() {
         body: JSON.stringify(formData),
       });
 
-      if (!res.ok) throw new Error('Failed to save kingdom');
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({ message: 'Failed to save kingdom' }));
+        throw new Error(errorData.message || 'Failed to save kingdom');
+      }
 
       setShowForm(false);
       setEditingKingdom(null);
-      setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: 0, endYear: 0, image: '' });
+      setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: '', endYear: '', image: '' });
       fetchKingdoms();
     } catch (error) {
       console.error('Failed to save kingdom:', error);
-      alert('Failed to save kingdom');
+      alert(error instanceof Error ? error.message : 'Failed to save kingdom');
     }
   };
 
@@ -176,7 +179,7 @@ export default function AdminKingdomsPage() {
   const handleCancel = () => {
     setShowForm(false);
     setEditingKingdom(null);
-    setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: 0, endYear: 0, image: '' });
+    setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: '', endYear: '', image: '' });
   };
 
   if (loading) {
@@ -259,13 +262,13 @@ export default function AdminKingdomsPage() {
                   <div>
                     <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Start Year</label>
                     <input
-                      type="number"
+                      type="text"
                       required
                       value={formData.startYear}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          startYear: e.target.value === '' ? 0 : Number(e.target.value),
+                          startYear: e.target.value,
                         })
                       }
                       className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
@@ -274,13 +277,13 @@ export default function AdminKingdomsPage() {
                   <div>
                     <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">End Year</label>
                     <input
-                      type="number"
+                      type="text"
                       required
                       value={formData.endYear}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          endYear: e.target.value === '' ? 0 : Number(e.target.value),
+                          endYear: e.target.value,
                         })
                       }
                       className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"

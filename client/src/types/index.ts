@@ -41,8 +41,8 @@ export interface Kingdom {
   description: string;
   regionId: string;
   eraId: string;
-  startYear: number;
-  endYear: number;
+  startYear: string;
+  endYear: string;
   image: ImageAsset | null;
   createdAt: string;
   updatedAt: string;

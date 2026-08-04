@@ -5,8 +5,8 @@ export const createKingdomSchema = z.object({
   description: z.string().min(10, 'Description must be at least 10 characters'),
   regionId: z.string().min(1, 'Region is required'),
   eraId: z.string().min(1, 'Era is required'),
-  startYear: z.number().int('Start year must be an integer'),
-  endYear: z.number().int('End year must be an integer'),
+  startYear: z.string().min(1, 'Start year is required'),
+  endYear: z.string().min(1, 'End year is required'),
   image: z.string().optional(),
 });
 

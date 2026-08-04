@@ -9,8 +9,8 @@ export interface IKingdom extends Document {
   description: string;
   regionId: Types.ObjectId;
   eraId: Types.ObjectId;
-  startYear: number;
-  endYear: number;
+  startYear: string;
+  endYear: string;
   image?: ImageMetadata;
   createdAt: Date;
   updatedAt: Date;
@@ -43,11 +43,11 @@ const kingdomSchema = new Schema<IKingdom>(
       required: [true, 'Era is required'],
     },
     startYear: {
-      type: Number,
+      type: String,
       required: [true, 'Start year is required'],
     },
     endYear: {
-      type: Number,
+      type: String,
       required: [true, 'End year is required'],
     },
     image: {
