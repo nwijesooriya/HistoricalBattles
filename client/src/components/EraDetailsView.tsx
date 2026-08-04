@@ -121,9 +121,7 @@ export default function EraDetailsView({
                         {formatYear(k.startYear)} - {formatYear(k.endYear)}
                       </span>
                     </div>
-                    <p className="text-xs text-[var(--color-text-secondary)] line-clamp-2 mb-3">
-                      {k.description}
-                    </p>
+                    <div className="text-xs text-[var(--color-text-secondary)] line-clamp-2 mb-3" dangerouslySetInnerHTML={{ __html: k.description }} />
                     {k.image?.url && (
                       <div className="relative w-full h-24 overflow-hidden rounded-lg border border-[var(--color-border)]">
                         <img
@@ -175,9 +173,7 @@ export default function EraDetailsView({
                         {formatYear(w.startYear)} - {formatYear(w.endYear)}
                       </span>
                     </div>
-                    <p className="text-xs text-[var(--color-text-secondary)] line-clamp-2 mb-3">
-                      {w.description}
-                    </p>
+                    <div className="text-xs text-[var(--color-text-secondary)] line-clamp-2 mb-3" dangerouslySetInnerHTML={{ __html: w.description }} />
                     {w.image?.url && (
                       <div className="relative w-full h-24 overflow-hidden rounded-lg border border-[var(--color-border)]">
                         <img
@@ -229,9 +225,7 @@ export default function EraDetailsView({
                         {b.date}
                       </span>
                     </div>
-                    <p className="text-xs text-[var(--color-text-secondary)] line-clamp-2 mb-3">
-                      {b.description}
-                    </p>
+                    <div className="text-xs text-[var(--color-text-secondary)] line-clamp-2 mb-3" dangerouslySetInnerHTML={{ __html: b.description }} />
                     {b.image?.url && (
                       <div className="relative w-full h-24 overflow-hidden rounded-lg border border-[var(--color-border)]">
                         <img
@@ -381,9 +375,10 @@ export default function EraDetailsView({
                 <h4 className="text-xs uppercase tracking-widest text-[var(--color-text-muted)] font-bold border-b border-[var(--color-border)] pb-1">
                   Historical Account
                 </h4>
-                <p className="text-[var(--color-text-secondary)] text-sm md:text-base leading-relaxed whitespace-pre-line">
-                  {selectedItem.item.description}
-                </p>
+                <div
+                  className="text-[var(--color-text-secondary)] text-sm md:text-base leading-relaxed rte-editor"
+                  dangerouslySetInnerHTML={{ __html: selectedItem.item.description }}
+                />
               </div>
             </div>
 
