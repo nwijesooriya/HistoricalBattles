@@ -178,14 +178,19 @@ export default function AdminBattlesPage() {
     }
   };
 
+  const getRefId = (value: any) => {
+    if (!value) return '';
+    return typeof value === 'string' ? value : value._id || '';
+  };
+
   const handleEdit = (battle: Battle) => {
     setEditingBattle(battle);
     setFormData({
       name: battle.name,
       description: battle.description,
-      warId: battle.warId,
-      regionId: battle.regionId,
-      eraId: battle.eraId,
+      warId: getRefId(battle.warId),
+      regionId: getRefId(battle.regionId),
+      eraId: getRefId(battle.eraId),
       date: battle.date,
       location: battle.location,
       outcome: battle.outcome,

@@ -1,4 +1,4 @@
-import { ApiResponse, AuthResponse, Era, HomepageSettings, Region } from '@/types';
+import { ApiResponse, AuthResponse, Era, HomepageSettings, Region, Kingdom, War, Battle } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
 
@@ -102,5 +102,26 @@ export async function getEraBySlug(slug: string): Promise<Era> {
 
 export async function getErasByRegion(regionId: string): Promise<Era[]> {
   const res = await apiFetch<ApiResponse<Era[]>>(`/eras/region/${regionId}`);
+  return res.data;
+}
+
+// ─── Kingdom API ───
+
+export async function getKingdomsByEra(eraId: string): Promise<Kingdom[]> {
+  const res = await apiFetch<ApiResponse<Kingdom[]>>(`/kingdoms/era/${eraId}`);
+  return res.data;
+}
+
+// ─── War API ───
+
+export async function getWarsByEra(eraId: string): Promise<War[]> {
+  const res = await apiFetch<ApiResponse<War[]>>(`/wars/era/${eraId}`);
+  return res.data;
+}
+
+// ─── Battle API ───
+
+export async function getBattlesByEra(eraId: string): Promise<Battle[]> {
+  const res = await apiFetch<ApiResponse<Battle[]>>(`/battles/era/${eraId}`);
   return res.data;
 }

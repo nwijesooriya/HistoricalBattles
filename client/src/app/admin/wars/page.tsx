@@ -149,13 +149,18 @@ export default function AdminWarsPage() {
     }
   };
 
+  const getRefId = (value: any) => {
+    if (!value) return '';
+    return typeof value === 'string' ? value : value._id || '';
+  };
+
   const handleEdit = (war: War) => {
     setEditingWar(war);
     setFormData({
       name: war.name,
       description: war.description,
-      regionId: war.regionId,
-      eraId: war.eraId,
+      regionId: getRefId(war.regionId),
+      eraId: getRefId(war.eraId),
       startYear: war.startYear,
       endYear: war.endYear,
     });
