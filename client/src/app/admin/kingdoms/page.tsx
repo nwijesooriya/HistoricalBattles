@@ -19,8 +19,14 @@ export default function AdminKingdomsPage() {
     eraId: '',
     startYear: '',
     endYear: '',
-    image: '',
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState('');
+
+  const getRefId = (value: string | { _id: string } | null | undefined) => {
+    if (!value) return '';
+    return typeof value === 'string' ? value : value._id;
+  };
 
   useEffect(() => {
     checkAuthAndFetch();
@@ -113,14 +119,25 @@ export default function AdminKingdomsPage() {
         : `${API_BASE_URL}/kingdoms`;
       
       const method = editingKingdom ? 'PUT' : 'POST';
+      const payload = new FormData();
+
+      payload.append('name', formData.name);
+      payload.append('description', formData.description);
+      payload.append('regionId', formData.regionId);
+      payload.append('eraId', formData.eraId);
+      payload.append('startYear', formData.startYear);
+      payload.append('endYear', formData.endYear);
+
+      if (imageFile) {
+        payload.append('image', imageFile);
+      }
 
       const res = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json',
           ...(token && { Authorization: `Bearer ${token}` }),
         },
-        body: JSON.stringify(formData),
+        body: payload,
       });
 
       if (!res.ok) {
@@ -130,7 +147,9 @@ export default function AdminKingdomsPage() {
 
       setShowForm(false);
       setEditingKingdom(null);
-      setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: '', endYear: '', image: '' });
+      setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: '', endYear: '' });
+      setImageFile(null);
+      setImagePreview('');
       fetchKingdoms();
     } catch (error) {
       console.error('Failed to save kingdom:', error);
@@ -143,12 +162,13 @@ export default function AdminKingdomsPage() {
     setFormData({
       name: kingdom.name,
       description: kingdom.description,
-      regionId: kingdom.regionId,
-      eraId: kingdom.eraId,
+      regionId: getRefId(kingdom.regionId),
+      eraId: getRefId(kingdom.eraId),
       startYear: kingdom.startYear,
       endYear: kingdom.endYear,
-      image: kingdom.image?.url || '',
     });
+    setImageFile(null);
+    setImagePreview(kingdom.image?.url || '');
     setShowForm(true);
   };
 
@@ -179,7 +199,9 @@ export default function AdminKingdomsPage() {
   const handleCancel = () => {
     setShowForm(false);
     setEditingKingdom(null);
-    setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: '', endYear: '', image: '' });
+    setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: '', endYear: '' });
+    setImageFile(null);
+    setImagePreview('');
   };
 
   if (loading) {
@@ -301,13 +323,29 @@ export default function AdminKingdomsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Image URL</label>
+                  <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Image Upload</label>
                   <input
-                    type="text"
-                    value={formData.image}
-                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0] || null;
+                      if (imagePreview.startsWith('blob:')) {
+                        URL.revokeObjectURL(imagePreview);
+                      }
+                      setImageFile(file);
+                      setImagePreview(file ? URL.createObjectURL(file) : editingKingdom?.image?.url || '');
+                    }}
                     className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                   />
+                  {imagePreview && (
+                    <div className="mt-3">
+                      <img
+                        src={imagePreview}
+                        alt="Kingdom image preview"
+                        className="h-40 w-full rounded-md object-cover border border-[var(--color-border)]"
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="flex space-x-3">
                   <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
@@ -343,10 +381,10 @@ export default function AdminKingdomsPage() {
                     <div className="text-sm text-[var(--color-text-muted)]">{kingdom.startYear} - {kingdom.endYear}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-[var(--color-text-muted)]">{regions.find(r => r._id === kingdom.regionId)?.name || 'N/A'}</div>
+                    <div className="text-sm text-[var(--color-text-muted)]">{regions.find(r => r._id === getRefId(kingdom.regionId))?.name || 'N/A'}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-[var(--color-text-muted)]">{eras.find(e => e._id === kingdom.eraId)?.name || 'N/A'}</div>
+                    <div className="text-sm text-[var(--color-text-muted)]">{eras.find(e => e._id === getRefId(kingdom.eraId))?.name || 'N/A'}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <button onClick={() => handleEdit(kingdom)} className="text-indigo-600 hover:text-indigo-900 mr-4">Edit</button>
