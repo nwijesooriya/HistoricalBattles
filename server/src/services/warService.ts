@@ -1,5 +1,8 @@
 import { War, IWar } from '../models/War';
+import { env } from '../config/env';
 import { ApiError } from '../utils/ApiError';
+import { MediaService } from './media/media.service';
+import { ImageMetadata } from './media/types';
 import { CreateWarInput, UpdateWarInput } from '../validations/warValidation';
 
 export class WarService {
@@ -45,16 +48,45 @@ export class WarService {
   }
 
   static async create(data: CreateWarInput): Promise<IWar> {
-    return War.create(data);
+    const { image: _image, ...payload } = data;
+    return War.create(payload);
   }
 
-  static async update(id: string, data: UpdateWarInput): Promise<IWar> {
+  static async createWithImage(data: CreateWarInput, imageFile?: Express.Multer.File): Promise<IWar> {
+    const image = imageFile
+      ? await MediaService.uploadImage(imageFile.buffer, {
+          folder: `${env.CLOUDINARY_FOLDER_PREFIX}/wars`,
+          filename: imageFile.originalname,
+        })
+      : undefined;
+
+    const { image: _image, ...payload } = data;
+
+    return War.create({
+      ...payload,
+      ...(image ? { image } : {}),
+    });
+  }
+
+  static async update(id: string, data: UpdateWarInput, imageFile?: Express.Multer.File): Promise<IWar> {
     const war = await War.findById(id);
     if (!war) {
       throw ApiError.notFound('War not found');
     }
 
-    Object.assign(war, data);
+    const { image: _image, ...payload } = data;
+    Object.assign(war, payload);
+
+    if (imageFile) {
+      const image = await MediaService.replaceImage(imageFile.buffer, {
+        folder: `${env.CLOUDINARY_FOLDER_PREFIX}/wars`,
+        filename: imageFile.originalname,
+        previousPublicId: war.image?.publicId || undefined,
+      });
+
+      war.image = image as ImageMetadata;
+    }
+
     return war.save();
   }
 

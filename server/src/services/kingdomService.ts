@@ -1,5 +1,8 @@
 import { Kingdom, IKingdom } from '../models/Kingdom';
+import { env } from '../config/env';
 import { ApiError } from '../utils/ApiError';
+import { MediaService } from './media/media.service';
+import { ImageMetadata } from './media/types';
 import { CreateKingdomInput, UpdateKingdomInput } from '../validations/kingdomValidation';
 
 export class KingdomService {
@@ -45,16 +48,45 @@ export class KingdomService {
   }
 
   static async create(data: CreateKingdomInput): Promise<IKingdom> {
-    return Kingdom.create(data);
+    const { image: _image, ...payload } = data;
+    return Kingdom.create(payload);
   }
 
-  static async update(id: string, data: UpdateKingdomInput): Promise<IKingdom> {
+  static async createWithImage(data: CreateKingdomInput, imageFile?: Express.Multer.File): Promise<IKingdom> {
+    const image = imageFile
+      ? await MediaService.uploadImage(imageFile.buffer, {
+          folder: `${env.CLOUDINARY_FOLDER_PREFIX}/kingdoms`,
+          filename: imageFile.originalname,
+        })
+      : undefined;
+
+    const { image: _image, ...payload } = data;
+
+    return Kingdom.create({
+      ...payload,
+      ...(image ? { image } : {}),
+    });
+  }
+
+  static async update(id: string, data: UpdateKingdomInput, imageFile?: Express.Multer.File): Promise<IKingdom> {
     const kingdom = await Kingdom.findById(id);
     if (!kingdom) {
       throw ApiError.notFound('Kingdom not found');
     }
 
-    Object.assign(kingdom, data);
+    const { image: _image, ...payload } = data;
+    Object.assign(kingdom, payload);
+
+    if (imageFile) {
+      const image = await MediaService.replaceImage(imageFile.buffer, {
+        folder: `${env.CLOUDINARY_FOLDER_PREFIX}/kingdoms`,
+        filename: imageFile.originalname,
+        previousPublicId: kingdom.image?.publicId || undefined,
+      });
+
+      kingdom.image = image as ImageMetadata;
+    }
+
     return kingdom.save();
   }
 

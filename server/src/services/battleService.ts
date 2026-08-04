@@ -1,5 +1,8 @@
 import { Battle, IBattle } from '../models/Battle';
+import { env } from '../config/env';
 import { ApiError } from '../utils/ApiError';
+import { MediaService } from './media/media.service';
+import { ImageMetadata } from './media/types';
 import { CreateBattleInput, UpdateBattleInput } from '../validations/battleValidation';
 
 export class BattleService {
@@ -58,16 +61,45 @@ export class BattleService {
   }
 
   static async create(data: CreateBattleInput): Promise<IBattle> {
-    return Battle.create(data);
+    const { image: _image, ...payload } = data;
+    return Battle.create(payload);
   }
 
-  static async update(id: string, data: UpdateBattleInput): Promise<IBattle> {
+  static async createWithImage(data: CreateBattleInput, imageFile?: Express.Multer.File): Promise<IBattle> {
+    const image = imageFile
+      ? await MediaService.uploadImage(imageFile.buffer, {
+          folder: `${env.CLOUDINARY_FOLDER_PREFIX}/battles`,
+          filename: imageFile.originalname,
+        })
+      : undefined;
+
+    const { image: _image, ...payload } = data;
+
+    return Battle.create({
+      ...payload,
+      ...(image ? { image } : {}),
+    });
+  }
+
+  static async update(id: string, data: UpdateBattleInput, imageFile?: Express.Multer.File): Promise<IBattle> {
     const battle = await Battle.findById(id);
     if (!battle) {
       throw ApiError.notFound('Battle not found');
     }
 
-    Object.assign(battle, data);
+    const { image: _image, ...payload } = data;
+    Object.assign(battle, payload);
+
+    if (imageFile) {
+      const image = await MediaService.replaceImage(imageFile.buffer, {
+        folder: `${env.CLOUDINARY_FOLDER_PREFIX}/battles`,
+        filename: imageFile.originalname,
+        previousPublicId: battle.image?.publicId || undefined,
+      });
+
+      battle.image = image as ImageMetadata;
+    }
+
     return battle.save();
   }
 

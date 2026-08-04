@@ -10,6 +10,7 @@ import {
   deleteBattle,
 } from '../controllers/battleController';
 import { protect } from '../middlewares/auth';
+import { singleImageUpload } from '../middlewares/upload';
 
 const router = Router();
 
@@ -21,8 +22,8 @@ router.get('/region/:regionId', getBattlesByRegion);
 router.get('/era/:eraId', getBattlesByEra);
 
 // Protected routes (admin only)
-router.post('/', protect, createBattle);
-router.put('/:id', protect, updateBattle);
+router.post('/', protect, singleImageUpload('image'), createBattle);
+router.put('/:id', protect, singleImageUpload('image'), updateBattle);
 router.delete('/:id', protect, deleteBattle);
 
 export default router;

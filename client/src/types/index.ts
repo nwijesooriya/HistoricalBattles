@@ -10,6 +10,12 @@ export interface ImageAsset {
   opacity?: number;
 }
 
+export interface RefEntity {
+  _id: string;
+  name: string;
+  slug?: string;
+}
+
 export interface Region {
   _id: string;
   name: string;
@@ -39,8 +45,8 @@ export interface Kingdom {
   name: string;
   slug: string;
   description: string;
-  regionId: string;
-  eraId: string;
+  regionId: string | RefEntity;
+  eraId: string | RefEntity;
   startYear: string;
   endYear: string;
   image: ImageAsset | null;
@@ -53,8 +59,8 @@ export interface War {
   name: string;
   slug: string;
   description: string;
-  regionId: string;
-  eraId: string;
+  regionId: string | RefEntity;
+  eraId: string | RefEntity;
   startYear: number;
   endYear: number;
   image: ImageAsset | null;
@@ -67,9 +73,9 @@ export interface Battle {
   name: string;
   slug: string;
   description: string;
-  warId: string;
-  regionId: string;
-  eraId: string;
+  warId: string | RefEntity;
+  regionId: string | RefEntity;
+  eraId: string | RefEntity;
   date: string;
   location: string;
   outcome: string;
