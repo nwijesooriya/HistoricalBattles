@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Region, Era, Kingdom, War, Battle } from '@/types';
-import Breadcrumbs from '@/components/layout/Breadcrumbs';
 
 interface EraDetailsViewProps {
   region: Region;
@@ -35,6 +34,7 @@ export default function EraDetailsView({
   battles,
 }: EraDetailsViewProps) {
   const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
+  const [activeTab, setActiveTab] = useState<'kingdom' | 'war' | 'battle'>('kingdom');
 
   // Close modal on escape keypress
   useEffect(() => {
@@ -49,9 +49,6 @@ export default function EraDetailsView({
 
   return (
     <>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <Breadcrumbs />
-      </div>
 
       {/* Era Hero Section */}
       <section className="region-hero relative overflow-hidden py-16 md:py-24 bg-[var(--color-bg-alt)] border-b border-[var(--color-border)]">
@@ -84,165 +81,260 @@ export default function EraDetailsView({
         </div>
       </section>
 
-      {/* 3 Columns/Cards Layout */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
-          {/* COLUMN 1: KINGDOMS */}
-          <div className="flex flex-col bg-[var(--color-bg-alt)] border border-[var(--color-border)] rounded-2xl overflow-hidden hover:border-[var(--color-border-hover)] transition-all duration-300 shadow-xl">
-            <div className="p-5 border-b border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl p-2 bg-yellow-500/10 rounded-lg text-yellow-500">👑</span>
-                <h2 className="text-xl font-bold font-serif text-[var(--color-text)]">Kingdoms</h2>
-              </div>
-              <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-yellow-500/15 text-yellow-500 border border-yellow-500/25">
-                {kingdoms.length}
-              </span>
-            </div>
-            
-            <div className="p-6 flex-1 flex flex-col gap-4 overflow-y-auto max-h-[600px] custom-scrollbar">
-              {kingdoms.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-12 text-center text-[var(--color-text-muted)]">
-                  <span className="text-3xl mb-3">🏰</span>
-                  <p className="text-sm">No kingdoms recorded for this era.</p>
-                </div>
-              ) : (
-                kingdoms.map((k) => (
-                  <div
-                    key={k._id}
-                    onClick={() => setSelectedItem({ type: 'kingdom', item: k })}
-                    className="group flex flex-col p-4 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-accent)] rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md"
-                  >
-                    <div className="flex justify-between items-start gap-2 mb-2">
-                      <h3 className="font-serif font-semibold text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors duration-200">
-                        {k.name}
-                      </h3>
-                      <span className="text-[11px] font-mono px-2 py-0.5 bg-[var(--color-bg)] rounded border border-[var(--color-border)] text-[var(--color-text-secondary)] whitespace-nowrap">
-                        {formatYear(k.startYear)} - {formatYear(k.endYear)}
-                      </span>
-                    </div>
-                    <div className="text-xs text-[var(--color-text-secondary)] line-clamp-2 mb-3" dangerouslySetInnerHTML={{ __html: k.description }} />
-                    {k.image?.url && (
-                      <div className="relative w-full h-24 overflow-hidden rounded-lg border border-[var(--color-border)]">
-                        <img
-                          src={k.image.url}
-                          alt={k.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    )}
-                    <span className="mt-2 text-[10px] uppercase tracking-wider text-[var(--color-accent)] font-semibold self-end opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                      Learn More →
-                    </span>
+      {/* Tab Switcher Bar */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 p-1.5 bg-[var(--color-bg-alt)] border border-[var(--color-border)] rounded-xl sm:rounded-full max-w-2xl mx-auto shadow-lg">
+          <button
+            onClick={() => setActiveTab('kingdom')}
+            className={`w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg sm:rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${activeTab === 'kingdom'
+                ? 'bg-[var(--color-surface)] text-[var(--color-accent)] border border-[var(--color-border)] shadow-md'
+                : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-hover)] border border-transparent'
+              }`}
+          >
+            <span className="text-lg">👑</span>
+            <span>Kingdoms</span>
+            <span className={`ml-1 px-2.5 py-0.5 text-xs font-semibold rounded-full ${activeTab === 'kingdom'
+                ? 'bg-yellow-500/15 text-yellow-500 border border-yellow-500/25'
+                : 'bg-[var(--color-surface)] text-[var(--color-text-muted)] border border-[var(--color-border)]'
+              }`}>
+              {kingdoms.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('war')}
+            className={`w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg sm:rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${activeTab === 'war'
+                ? 'bg-[var(--color-surface)] text-red-400 border border-[var(--color-border)] shadow-md'
+                : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-hover)] border border-transparent'
+              }`}
+          >
+            <span className="text-lg">🏴</span>
+            <span>Wars</span>
+            <span className={`ml-1 px-2.5 py-0.5 text-xs font-semibold rounded-full ${activeTab === 'war'
+                ? 'bg-red-500/15 text-red-400 border border-red-500/25'
+                : 'bg-[var(--color-surface)] text-[var(--color-text-muted)] border border-[var(--color-border)]'
+              }`}>
+              {wars.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('battle')}
+            className={`w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg sm:rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${activeTab === 'battle'
+                ? 'bg-[var(--color-surface)] text-amber-500 border border-[var(--color-border)] shadow-md'
+                : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-hover)] border border-transparent'
+              }`}
+          >
+            <span className="text-lg">⚔️</span>
+            <span>Notable Battles</span>
+            <span className={`ml-1 px-2.5 py-0.5 text-xs font-semibold rounded-full ${activeTab === 'battle'
+                ? 'bg-amber-500/15 text-amber-500 border border-amber-500/25'
+                : 'bg-[var(--color-surface)] text-[var(--color-text-muted)] border border-[var(--color-border)]'
+              }`}>
+              {battles.length}
+            </span>
+          </button>
+        </div>
+      </section>
+
+      {/* Dynamic Tab Content Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <div className="transition-all duration-300">
+
+          {/* KINGDOMS TAB */}
+          {activeTab === 'kingdom' && (
+            <div className="flex flex-col bg-[var(--color-bg-alt)] border border-[var(--color-border)] rounded-2xl overflow-hidden hover:border-[var(--color-border-hover)] transition-all duration-300 shadow-xl">
+              <div className="p-6 border-b border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl p-2 bg-yellow-500/10 rounded-lg text-yellow-500">👑</span>
+                  <div>
+                    <h2 className="text-2xl font-bold font-serif text-[var(--color-text)]">Kingdoms</h2>
+                    <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">Dynasties, empires, and reigns during this historical period</p>
                   </div>
-                ))
-              )}
-            </div>
-          </div>
-
-          {/* COLUMN 2: WARS */}
-          <div className="flex flex-col bg-[var(--color-bg-alt)] border border-[var(--color-border)] rounded-2xl overflow-hidden hover:border-[var(--color-border-hover)] transition-all duration-300 shadow-xl">
-            <div className="p-5 border-b border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl p-2 bg-red-500/10 rounded-lg text-red-400">🏴</span>
-                <h2 className="text-xl font-bold font-serif text-[var(--color-text)]">Wars</h2>
-              </div>
-              <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-red-500/15 text-red-400 border border-red-500/25">
-                {wars.length}
-              </span>
-            </div>
-
-            <div className="p-6 flex-1 flex flex-col gap-4 overflow-y-auto max-h-[600px] custom-scrollbar">
-              {wars.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-12 text-center text-[var(--color-text-muted)]">
-                  <span className="text-3xl mb-3">🛡️</span>
-                  <p className="text-sm">No wars recorded for this era.</p>
                 </div>
-              ) : (
-                wars.map((w) => (
-                  <div
-                    key={w._id}
-                    onClick={() => setSelectedItem({ type: 'war', item: w })}
-                    className="group flex flex-col p-4 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-red-500/50 rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md"
-                  >
-                    <div className="flex justify-between items-start gap-2 mb-2">
-                      <h3 className="font-serif font-semibold text-[var(--color-text)] group-hover:text-red-400 transition-colors duration-200">
-                        {w.name}
-                      </h3>
-                      <span className="text-[11px] font-mono px-2 py-0.5 bg-[var(--color-bg)] rounded border border-[var(--color-border)] text-[var(--color-text-secondary)] whitespace-nowrap">
-                        {formatYear(w.startYear)} - {formatYear(w.endYear)}
-                      </span>
-                    </div>
-                    <div className="text-xs text-[var(--color-text-secondary)] line-clamp-2 mb-3" dangerouslySetInnerHTML={{ __html: w.description }} />
-                    {w.image?.url && (
-                      <div className="relative w-full h-24 overflow-hidden rounded-lg border border-[var(--color-border)]">
-                        <img
-                          src={w.image.url}
-                          alt={w.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    )}
-                    <span className="mt-2 text-[10px] uppercase tracking-wider text-red-400 font-semibold self-end opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                      Learn More →
-                    </span>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-
-          {/* COLUMN 3: NOTABLE BATTLES */}
-          <div className="flex flex-col bg-[var(--color-bg-alt)] border border-[var(--color-border)] rounded-2xl overflow-hidden hover:border-[var(--color-border-hover)] transition-all duration-300 shadow-xl">
-            <div className="p-5 border-b border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl p-2 bg-amber-500/10 rounded-lg text-amber-500">⚔️</span>
-                <h2 className="text-xl font-bold font-serif text-[var(--color-text)]">Notable Battles</h2>
+                <span className="px-3 py-1 text-sm font-semibold rounded-full bg-yellow-500/15 text-yellow-500 border border-yellow-500/25">
+                  {kingdoms.length} Recorded
+                </span>
               </div>
-              <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-amber-500/15 text-amber-500 border border-amber-500/25">
-                {battles.length}
-              </span>
-            </div>
 
-            <div className="p-6 flex-1 flex flex-col gap-4 overflow-y-auto max-h-[600px] custom-scrollbar">
-              {battles.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-12 text-center text-[var(--color-text-muted)]">
-                  <span className="text-3xl mb-3">⚔️</span>
-                  <p className="text-sm">No battles recorded for this era.</p>
-                </div>
-              ) : (
-                battles.map((b) => (
-                  <div
-                    key={b._id}
-                    onClick={() => setSelectedItem({ type: 'battle', item: b })}
-                    className="group flex flex-col p-4 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-accent)] rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md"
-                  >
-                    <div className="flex justify-between items-start gap-2 mb-2">
-                      <h3 className="font-serif font-semibold text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors duration-200">
-                        {b.name}
-                      </h3>
-                      <span className="text-[11px] font-mono px-2 py-0.5 bg-[var(--color-bg)] rounded border border-[var(--color-border)] text-[var(--color-text-secondary)] whitespace-nowrap">
-                        {b.date}
-                      </span>
-                    </div>
-                    <div className="text-xs text-[var(--color-text-secondary)] line-clamp-2 mb-3" dangerouslySetInnerHTML={{ __html: b.description }} />
-                    {b.image?.url && (
-                      <div className="relative w-full h-24 overflow-hidden rounded-lg border border-[var(--color-border)]">
-                        <img
-                          src={b.image.url}
-                          alt={b.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    )}
-                    <span className="mt-2 text-[10px] uppercase tracking-wider text-[var(--color-accent)] font-semibold self-end opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                      Learn More →
-                    </span>
+              <div className="p-8">
+                {kingdoms.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-20 text-center text-[var(--color-text-muted)]">
+                    <span className="text-5xl mb-4">🏰</span>
+                    <p className="text-base font-medium">No kingdoms recorded for this era.</p>
                   </div>
-                ))
-              )}
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {kingdoms.map((k) => (
+                      <div
+                        key={k._id}
+                        onClick={() => setSelectedItem({ type: 'kingdom', item: k })}
+                        className="group flex flex-col justify-between p-5 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-accent)] rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md"
+                      >
+                        <div>
+                          <div className="flex justify-between items-start gap-2 mb-3">
+                            <h3 className="font-serif font-semibold text-lg text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors duration-200">
+                              {k.name}
+                            </h3>
+                            <span className="text-[11px] font-mono px-2 py-0.5 bg-[var(--color-bg)] rounded border border-[var(--color-border)] text-[var(--color-text-secondary)] whitespace-nowrap">
+                              {formatYear(k.startYear)} - {formatYear(k.endYear)}
+                            </span>
+                          </div>
+                          <div className="text-sm text-[var(--color-text-secondary)] line-clamp-3 mb-4" dangerouslySetInnerHTML={{ __html: k.description }} />
+                        </div>
+                        <div>
+                          {k.image?.url && (
+                            <div className="relative w-full h-32 overflow-hidden rounded-lg border border-[var(--color-border)] mb-3">
+                              <img
+                                src={k.image.url}
+                                alt={k.name}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              />
+                            </div>
+                          )}
+                          <div className="flex justify-end">
+                            <span className="text-[11px] uppercase tracking-wider text-[var(--color-accent)] font-semibold opacity-80 group-hover:opacity-100 transition-opacity duration-200">
+                              Learn More →
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* WARS TAB */}
+          {activeTab === 'war' && (
+            <div className="flex flex-col bg-[var(--color-bg-alt)] border border-[var(--color-border)] rounded-2xl overflow-hidden hover:border-[var(--color-border-hover)] transition-all duration-300 shadow-xl">
+              <div className="p-6 border-b border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl p-2 bg-red-500/10 rounded-lg text-red-400">🏴</span>
+                  <div>
+                    <h2 className="text-2xl font-bold font-serif text-[var(--color-text)]">Wars</h2>
+                    <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">Major conflicts, campaigns, and military operations</p>
+                  </div>
+                </div>
+                <span className="px-3 py-1 text-sm font-semibold rounded-full bg-red-500/15 text-red-400 border border-red-500/25">
+                  {wars.length} Recorded
+                </span>
+              </div>
+
+              <div className="p-8">
+                {wars.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-20 text-center text-[var(--color-text-muted)]">
+                    <span className="text-5xl mb-4">🛡️</span>
+                    <p className="text-base font-medium">No wars recorded for this era.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {wars.map((w) => (
+                      <div
+                        key={w._id}
+                        onClick={() => setSelectedItem({ type: 'war', item: w })}
+                        className="group flex flex-col justify-between p-5 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-red-500/50 rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md"
+                      >
+                        <div>
+                          <div className="flex justify-between items-start gap-2 mb-3">
+                            <h3 className="font-serif font-semibold text-lg text-[var(--color-text)] group-hover:text-red-400 transition-colors duration-200">
+                              {w.name}
+                            </h3>
+                            <span className="text-[11px] font-mono px-2 py-0.5 bg-[var(--color-bg)] rounded border border-[var(--color-border)] text-[var(--color-text-secondary)] whitespace-nowrap">
+                              {formatYear(w.startYear)} - {formatYear(w.endYear)}
+                            </span>
+                          </div>
+                          <div className="text-sm text-[var(--color-text-secondary)] line-clamp-3 mb-4" dangerouslySetInnerHTML={{ __html: w.description }} />
+                        </div>
+                        <div>
+                          {w.image?.url && (
+                            <div className="relative w-full h-32 overflow-hidden rounded-lg border border-[var(--color-border)] mb-3">
+                              <img
+                                src={w.image.url}
+                                alt={w.name}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              />
+                            </div>
+                          )}
+                          <div className="flex justify-end">
+                            <span className="text-[11px] uppercase tracking-wider text-red-400 font-semibold opacity-80 group-hover:opacity-100 transition-opacity duration-200">
+                              Learn More →
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* BATTLES TAB */}
+          {activeTab === 'battle' && (
+            <div className="flex flex-col bg-[var(--color-bg-alt)] border border-[var(--color-border)] rounded-2xl overflow-hidden hover:border-[var(--color-border-hover)] transition-all duration-300 shadow-xl">
+              <div className="p-6 border-b border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl p-2 bg-amber-500/10 rounded-lg text-amber-500">⚔️</span>
+                  <div>
+                    <h2 className="text-2xl font-bold font-serif text-[var(--color-text)]">Notable Battles</h2>
+                    <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">Significant armed engagements and battles</p>
+                  </div>
+                </div>
+                <span className="px-3 py-1 text-sm font-semibold rounded-full bg-amber-500/15 text-amber-500 border border-amber-500/25">
+                  {battles.length} Recorded
+                </span>
+              </div>
+
+              <div className="p-8">
+                {battles.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-20 text-center text-[var(--color-text-muted)]">
+                    <span className="text-5xl mb-4">⚔️</span>
+                    <p className="text-base font-medium">No battles recorded for this era.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {battles.map((b) => (
+                      <div
+                        key={b._id}
+                        onClick={() => setSelectedItem({ type: 'battle', item: b })}
+                        className="group flex flex-col justify-between p-5 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-accent)] rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md"
+                      >
+                        <div>
+                          <div className="flex justify-between items-start gap-2 mb-3">
+                            <h3 className="font-serif font-semibold text-lg text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors duration-200">
+                              {b.name}
+                            </h3>
+                            <span className="text-[11px] font-mono px-2 py-0.5 bg-[var(--color-bg)] rounded border border-[var(--color-border)] text-[var(--color-text-secondary)] whitespace-nowrap">
+                              {b.date}
+                            </span>
+                          </div>
+                          <div className="text-sm text-[var(--color-text-secondary)] line-clamp-3 mb-4" dangerouslySetInnerHTML={{ __html: b.description }} />
+                        </div>
+                        <div>
+                          {b.image?.url && (
+                            <div className="relative w-full h-32 overflow-hidden rounded-lg border border-[var(--color-border)] mb-3">
+                              <img
+                                src={b.image.url}
+                                alt={b.name}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              />
+                            </div>
+                          )}
+                          <div className="flex justify-end">
+                            <span className="text-[11px] uppercase tracking-wider text-[var(--color-accent)] font-semibold opacity-80 group-hover:opacity-100 transition-opacity duration-200">
+                              Learn More →
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
         </div>
       </section>
@@ -294,8 +386,8 @@ export default function EraDetailsView({
                   {selectedItem.type === 'kingdom'
                     ? 'Historical Kingdom'
                     : selectedItem.type === 'war'
-                    ? 'Historical Conflict'
-                    : 'Notable Battle'}
+                      ? 'Historical Conflict'
+                      : 'Notable Battle'}
                 </span>
                 <h2 className="text-2xl md:text-3xl font-bold font-serif text-[var(--color-text)]">
                   {selectedItem.item.name}
@@ -304,7 +396,7 @@ export default function EraDetailsView({
 
               {/* Specific Properties Table / Cards */}
               <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-[var(--color-bg-alt)] rounded-xl border border-[var(--color-border)] text-sm">
-                
+
                 {/* Kingdom & War specific: years */}
                 {selectedItem.type !== 'battle' && (
                   <div>
