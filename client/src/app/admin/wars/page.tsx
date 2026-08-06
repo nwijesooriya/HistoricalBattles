@@ -18,8 +18,8 @@ export default function AdminWarsPage() {
     description: '',
     regionId: '',
     eraId: '',
-    startYear: 0,
-    endYear: 0,
+    startYear: '',
+    endYear: '',
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState('');
@@ -121,8 +121,10 @@ export default function AdminWarsPage() {
       payload.append('description', formData.description);
       payload.append('regionId', formData.regionId);
       payload.append('eraId', formData.eraId);
-      payload.append('startYear', String(formData.startYear));
-      payload.append('endYear', String(formData.endYear));
+      const startYearVal = parseInt(formData.startYear, 10);
+      const endYearVal = parseInt(formData.endYear, 10);
+      payload.append('startYear', String(isNaN(startYearVal) ? 0 : startYearVal));
+      payload.append('endYear', String(isNaN(endYearVal) ? 0 : endYearVal));
 
       if (imageFile) {
         payload.append('image', imageFile);
@@ -140,7 +142,7 @@ export default function AdminWarsPage() {
 
       setShowForm(false);
       setEditingWar(null);
-      setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: 0, endYear: 0 });
+      setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: '', endYear: '' });
       setImageFile(null);
       setImagePreview('');
       fetchWars();
@@ -162,8 +164,8 @@ export default function AdminWarsPage() {
       description: war.description,
       regionId: getRefId(war.regionId),
       eraId: getRefId(war.eraId),
-      startYear: war.startYear,
-      endYear: war.endYear,
+      startYear: war.startYear !== undefined && war.startYear !== null ? String(war.startYear) : '',
+      endYear: war.endYear !== undefined && war.endYear !== null ? String(war.endYear) : '',
     });
     setImageFile(null);
     setImagePreview(war.image?.url || '');
@@ -197,7 +199,7 @@ export default function AdminWarsPage() {
   const handleCancel = () => {
     setShowForm(false);
     setEditingWar(null);
-    setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: 0, endYear: 0 });
+    setFormData({ name: '', description: '', regionId: '', eraId: '', startYear: '', endYear: '' });
     setImageFile(null);
     setImagePreview('');
   };
@@ -282,20 +284,22 @@ export default function AdminWarsPage() {
                   <div>
                     <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Start Year</label>
                     <input
-                      type="number"
+                      type="text"
                       required
                       value={formData.startYear}
-                      onChange={(e) => setFormData({ ...formData, startYear: parseInt(e.target.value) })}
+                      onChange={(e) => setFormData({ ...formData, startYear: e.target.value })}
+                      placeholder="e.g., -500 (BCE) or 1939"
                       className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">End Year</label>
                     <input
-                      type="number"
+                      type="text"
                       required
                       value={formData.endYear}
-                      onChange={(e) => setFormData({ ...formData, endYear: parseInt(e.target.value) })}
+                      onChange={(e) => setFormData({ ...formData, endYear: e.target.value })}
+                      placeholder="e.g., -449 (BCE) or 1945"
                       className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-[var(--color-bg)] text-[var(--color-text)]"
                     />
                   </div>
