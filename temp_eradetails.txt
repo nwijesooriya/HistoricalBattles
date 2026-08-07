@@ -20,57 +20,6 @@ function formatYear(year: number | string | undefined): string {
   return `${numericYear} CE`;
 }
 
-/**
- * Extracts only the overview section from HTML content for card previews
- * Removes other sections like Historical Background, Geography, etc.
- * Returns plain text (HTML tags stripped)
- */
-function extractOverviewForCard(html: string): string {
-  if (!html) return '';
-  
-  // Use regex to find and remove content after major section headings
-  const majorSections = [
-    /<h[2-6][^>]*>HISTORICAL BACKGROUND<\/h[2-6]>/i,
-    /<h[2-6][^>]*>GEOGRAPHY<\/h[2-6]>/i,
-    /<h[2-6][^>]*>GOVERNMENT<\/h[2-6]>/i,
-    /<h[2-6][^>]*>ADMINISTRATION<\/h[2-6]>/i,
-    /<h[2-6][^>]*>ECONOMY<\/h[2-6]>/i,
-    /<h[2-6][^>]*>CULTURE<\/h[2-6]>/i,
-    /<h[2-6][^>]*>MILITARY<\/h[2-6]>/i,
-    /<h[2-6][^>]*>SOCIETY<\/h[2-6]>/i,
-    /<h[2-6][^>]*>RELIGION<\/h[2-6]>/i,
-  ];
-  
-  let overview = html;
-  
-  // Remove content starting from any major section heading
-  for (const sectionRegex of majorSections) {
-    const match = overview.match(sectionRegex);
-    if (match) {
-      const index = match.index;
-      if (index !== undefined) {
-        overview = overview.substring(0, index);
-        break;
-      }
-    }
-  }
-  
-  // Strip all HTML tags to get plain text
-  const plainText = overview.replace(/<[^>]*>/g, '').trim();
-  
-  // If overview is too long, truncate it
-  if (plainText.length > 250) {
-    // Find a good breaking point (space or sentence end)
-    const breakPoint = plainText.lastIndexOf('.', 250);
-    if (breakPoint !== -1 && breakPoint > 100) {
-      return plainText.substring(0, breakPoint + 1);
-    }
-    return plainText.substring(0, 250) + '...';
-  }
-  
-  return plainText || html.substring(0, 250).replace(/<[^>]*>/g, '') + '...';
-}
-
 export default function EraDetailsView({
   region,
   era,
@@ -87,7 +36,7 @@ export default function EraDetailsView({
       <section className="region-hero relative overflow-hidden py-16 md:py-24 bg-[var(--color-bg-alt)] border-b border-[var(--color-border)]">
         {region.image?.url && (
           <div
-            className="absolute inset-0 bg-cover bg-center w-full h-auto"
+            className="absolute inset-0 bg-cover bg-center"
             style={{
               backgroundImage: `url(${region.image.url})`,
               opacity: 0.12,
@@ -190,21 +139,21 @@ export default function EraDetailsView({
                 </span>
               </div>
 
-              <div className="p-6 min-h-0">
+              <div className="p-6">
                 {kingdoms.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center text-[var(--color-text-muted)]">
                     <span className="text-5xl mb-4">🏰</span>
                     <p className="text-base font-medium">No kingdoms recorded for this era.</p>
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-4 min-h-0">
+                  <div className="flex flex-col gap-4">
                     {kingdoms.map((k) => (
                       <Link
                         key={k._id}
                         href={`/region/${region.slug}/${era.slug}/kingdom/${k.slug}`}
-                        className="group flex flex-col sm:flex-row gap-5 p-5 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-yellow-500/50 rounded-2xl cursor-pointer transition-all duration-200 hover:shadow-md overflow-hidden min-h-[160px] sm:min-h-[140px]"
+                        className="group flex flex-col sm:flex-row gap-5 p-5 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-yellow-500/50 rounded-2xl cursor-pointer transition-all duration-200 hover:shadow-md"
                       >
-                        <div className="relative w-full sm:w-48 h-48 sm:h-36 shrink-0 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)]">
+                        <div className="relative w-full sm:w-48 sm:h-36 h-44 shrink-0 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)]">
                           {k.image?.url ? (
                             <img
                               src={k.image.url}
@@ -215,33 +164,22 @@ export default function EraDetailsView({
                             <div className="w-full h-full flex items-center justify-center text-4xl opacity-40">👑</div>
                           )}
                         </div>
-                        <div className="flex flex-col justify-between flex-1 h-full">
-                          <div className="space-y-2">
-                            {/* Header & Date */}
-                            <div className="flex justify-between items-start">
-                              <h3 className="text-xl font-bold text-[var(--color-text)] group-hover:text-yellow-500 transition-colors duration-200">
-                                {k.name}
-                              </h3>
-                              <span className="text-xs text-[var(--color-text-secondary)] bg-[var(--color-bg)] px-2 py-1 rounded border border-[var(--color-border)]">
-                                {formatYear(k.startYear)} - {formatYear(k.endYear)}
-                              </span>
-                            </div>
-
-                            {/* Section Title */}
-                            <span className="text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider block">
-                              OVERVIEW
+                        <div className="flex-1 flex flex-col">
+                          <div className="flex justify-between items-start gap-2 mb-2">
+                            <h3 className="font-serif font-semibold text-lg text-[var(--color-text)] group-hover:text-yellow-500 transition-colors duration-200">
+                              {k.name}
+                            </h3>
+                            <span className="text-[11px] font-mono px-2 py-0.5 bg-[var(--color-bg)] rounded border border-[var(--color-border)] text-[var(--color-text-secondary)] whitespace-nowrap">
+                              {formatYear(k.startYear)} - {formatYear(k.endYear)}
                             </span>
-
-                            {/* Truncated Text */}
-                            <p className="text-sm text-[var(--color-text-secondary)] line-clamp-3 leading-normal">
-                              {extractOverviewForCard(k.description)}
-                            </p>
                           </div>
-
-                          {/* Footer Link */}
-                          <div className="pt-2">
-                            <span className="text-xs font-semibold text-yellow-500 uppercase opacity-80 group-hover:opacity-100 transition-opacity duration-200">
-                              LEARN MORE →
+                          <div
+                            className="text-sm text-[var(--color-text-secondary)] line-clamp-2 mb-3 flex-1"
+                            dangerouslySetInnerHTML={{ __html: k.description }}
+                          />
+                          <div className="flex justify-end">
+                            <span className="text-[11px] uppercase tracking-wider text-yellow-500 font-semibold opacity-80 group-hover:opacity-100 transition-opacity duration-200">
+                              Learn More →
                             </span>
                           </div>
                         </div>
@@ -269,21 +207,21 @@ export default function EraDetailsView({
                 </span>
               </div>
 
-              <div className="p-6 min-h-0">
+              <div className="p-6">
                 {wars.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center text-[var(--color-text-muted)]">
                     <span className="text-5xl mb-4">🛡️</span>
                     <p className="text-base font-medium">No wars recorded for this era.</p>
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-4 min-h-0">
+                  <div className="flex flex-col gap-4">
                     {wars.map((w) => (
                       <Link
                         key={w._id}
                         href={`/region/${region.slug}/${era.slug}/war/${w.slug}`}
-                        className="group flex flex-col sm:flex-row gap-5 p-5 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-red-500/50 rounded-2xl cursor-pointer transition-all duration-200 hover:shadow-md overflow-hidden min-h-[160px] sm:min-h-[140px]"
+                        className="group flex flex-col sm:flex-row gap-5 p-5 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-red-500/50 rounded-2xl cursor-pointer transition-all duration-200 hover:shadow-md"
                       >
-                        <div className="relative w-full sm:w-48 h-48 sm:h-36 shrink-0 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)]">
+                        <div className="relative w-full sm:w-48 sm:h-36 h-44 shrink-0 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)]">
                           {w.image?.url ? (
                             <img
                               src={w.image.url}
@@ -294,33 +232,22 @@ export default function EraDetailsView({
                             <div className="w-full h-full flex items-center justify-center text-4xl opacity-40">🏴</div>
                           )}
                         </div>
-                        <div className="flex flex-col justify-between flex-1 h-full">
-                          <div className="space-y-2">
-                            {/* Header & Date */}
-                            <div className="flex justify-between items-start">
-                              <h3 className="text-xl font-bold text-[var(--color-text)] group-hover:text-red-400 transition-colors duration-200">
-                                {w.name}
-                              </h3>
-                              <span className="text-xs text-[var(--color-text-secondary)] bg-[var(--color-bg)] px-2 py-1 rounded border border-[var(--color-border)]">
-                                {formatYear(w.startYear)} - {formatYear(w.endYear)}
-                              </span>
-                            </div>
-
-                            {/* Section Title */}
-                            <span className="text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider block">
-                              OVERVIEW
+                        <div className="flex-1 flex flex-col">
+                          <div className="flex justify-between items-start gap-2 mb-2">
+                            <h3 className="font-serif font-semibold text-lg text-[var(--color-text)] group-hover:text-red-400 transition-colors duration-200">
+                              {w.name}
+                            </h3>
+                            <span className="text-[11px] font-mono px-2 py-0.5 bg-[var(--color-bg)] rounded border border-[var(--color-border)] text-[var(--color-text-secondary)] whitespace-nowrap">
+                              {formatYear(w.startYear)} - {formatYear(w.endYear)}
                             </span>
-
-                            {/* Truncated Text */}
-                            <p className="text-sm text-[var(--color-text-secondary)] line-clamp-3 leading-normal">
-                              {extractOverviewForCard(w.description)}
-                            </p>
                           </div>
-
-                          {/* Footer Link */}
-                          <div className="pt-2">
-                            <span className="text-xs font-semibold text-red-400 uppercase opacity-80 group-hover:opacity-100 transition-opacity duration-200">
-                              LEARN MORE →
+                          <div
+                            className="text-sm text-[var(--color-text-secondary)] line-clamp-2 mb-3 flex-1"
+                            dangerouslySetInnerHTML={{ __html: w.description }}
+                          />
+                          <div className="flex justify-end">
+                            <span className="text-[11px] uppercase tracking-wider text-red-400 font-semibold opacity-80 group-hover:opacity-100 transition-opacity duration-200">
+                              Learn More →
                             </span>
                           </div>
                         </div>
@@ -348,21 +275,21 @@ export default function EraDetailsView({
                 </span>
               </div>
 
-              <div className="p-6 min-h-0">
+              <div className="p-6">
                 {battles.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center text-[var(--color-text-muted)]">
                     <span className="text-5xl mb-4">⚔️</span>
                     <p className="text-base font-medium">No battles recorded for this era.</p>
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-4 min-h-0">
+                  <div className="flex flex-col gap-4">
                     {battles.map((b) => (
                       <Link
                         key={b._id}
                         href={`/region/${region.slug}/${era.slug}/battle/${b.slug}`}
-                        className="group flex flex-col sm:flex-row gap-5 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-amber-500/50 rounded-2xl cursor-pointer transition-all duration-200 hover:shadow-md overflow-hidden min-h-[160px] sm:min-h-[140px]"
+                        className="group flex flex-col sm:flex-row gap-5 p-5 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-amber-500/50 rounded-2xl cursor-pointer transition-all duration-200 hover:shadow-md"
                       >
-                        <div className="relative w-full sm:w-48 h-48 sm:h-36 shrink-0 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)] m-4 sm:m-0">
+                        <div className="relative w-full sm:w-48 sm:h-36 h-44 shrink-0 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)]">
                           {b.image?.url ? (
                             <img
                               src={b.image.url}
@@ -373,33 +300,22 @@ export default function EraDetailsView({
                             <div className="w-full h-full flex items-center justify-center text-4xl opacity-40">⚔️</div>
                           )}
                         </div>
-                        <div className="flex flex-col justify-between p-4 flex-1 h-full">
-                          <div className="space-y-2">
-                            {/* Header & Date */}
-                            <div className="flex justify-between items-start">
-                              <h3 className="text-xl font-bold text-[var(--color-text)] group-hover:text-amber-500 transition-colors duration-200">
-                                {b.name}
-                              </h3>
-                              <span className="text-xs text-[var(--color-text-secondary)] bg-[var(--color-bg)] px-2 py-1 rounded border border-[var(--color-border)]">
-                                {b.date}
-                              </span>
-                            </div>
-
-                            {/* Section Title */}
-                            <span className="text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider block">
-                              OVERVIEW
+                        <div className="flex-1 flex flex-col">
+                          <div className="flex justify-between items-start gap-2 mb-2">
+                            <h3 className="font-serif font-semibold text-lg text-[var(--color-text)] group-hover:text-amber-500 transition-colors duration-200">
+                              {b.name}
+                            </h3>
+                            <span className="text-[11px] font-mono px-2 py-0.5 bg-[var(--color-bg)] rounded border border-[var(--color-border)] text-[var(--color-text-secondary)] whitespace-nowrap">
+                              {b.date}
                             </span>
-
-                            {/* Truncated Text */}
-                            <p className="text-sm text-[var(--color-text-secondary)] line-clamp-3 leading-normal">
-                              {extractOverviewForCard(b.description).replace(/<[^>]*>/g, '')}
-                            </p>
                           </div>
-
-                          {/* Footer Link */}
-                          <div className="pt-2">
-                            <span className="text-xs font-semibold text-amber-500 uppercase opacity-80 group-hover:opacity-100 transition-opacity duration-200">
-                              LEARN MORE →
+                          <div
+                            className="text-sm text-[var(--color-text-secondary)] line-clamp-2 mb-3 flex-1"
+                            dangerouslySetInnerHTML={{ __html: b.description }}
+                          />
+                          <div className="flex justify-end">
+                            <span className="text-[11px] uppercase tracking-wider text-amber-500 font-semibold opacity-80 group-hover:opacity-100 transition-opacity duration-200">
+                              Learn More →
                             </span>
                           </div>
                         </div>
@@ -416,3 +332,4 @@ export default function EraDetailsView({
     </>
   );
 }
+
