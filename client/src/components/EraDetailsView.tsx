@@ -57,7 +57,7 @@ export default function EraDetailsView({
               {formatYear(era.startYear)} — {formatYear(era.endYear)}
             </span>
           </div>
-          <p className="max-w-3xl text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed font-sans">
+          <p className="max-w-3xl text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed font-sans line-clamp-4">
             {era.description}
           </p>
         </div>
@@ -139,7 +139,7 @@ export default function EraDetailsView({
                 </span>
               </div>
 
-              <div className="p-8">
+              <div className="p-6">
                 {kingdoms.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center text-[var(--color-text-muted)]">
                     <span className="text-5xl mb-4">🏰</span>
@@ -151,7 +151,7 @@ export default function EraDetailsView({
                       <Link
                         key={k._id}
                         href={`/region/${region.slug}/${era.slug}/kingdom/${k.slug}`}
-                        className="group flex flex-col sm:flex-row gap-5 p-5 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-accent)] rounded-2xl cursor-pointer transition-all duration-200 hover:shadow-md"
+                        className="group flex flex-col sm:flex-row gap-5 p-5 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-yellow-500/50 rounded-2xl cursor-pointer transition-all duration-200 hover:shadow-md"
                       >
                         <div className="relative w-full sm:w-48 sm:h-36 h-44 shrink-0 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)]">
                           {k.image?.url ? (
@@ -166,7 +166,7 @@ export default function EraDetailsView({
                         </div>
                         <div className="flex-1 flex flex-col">
                           <div className="flex justify-between items-start gap-2 mb-2">
-                            <h3 className="font-serif font-semibold text-lg text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors duration-200">
+                            <h3 className="font-serif font-semibold text-lg text-[var(--color-text)] group-hover:text-yellow-500 transition-colors duration-200">
                               {k.name}
                             </h3>
                             <span className="text-[11px] font-mono px-2 py-0.5 bg-[var(--color-bg)] rounded border border-[var(--color-border)] text-[var(--color-text-secondary)] whitespace-nowrap">
@@ -174,11 +174,11 @@ export default function EraDetailsView({
                             </span>
                           </div>
                           <div
-                            className="text-sm text-[var(--color-text-secondary)] line-clamp-3 mb-3 flex-1"
+                            className="text-sm text-[var(--color-text-secondary)] line-clamp-2 mb-3 flex-1"
                             dangerouslySetInnerHTML={{ __html: k.description }}
                           />
                           <div className="flex justify-end">
-                            <span className="text-[11px] uppercase tracking-wider text-[var(--color-accent)] font-semibold opacity-80 group-hover:opacity-100 transition-opacity duration-200">
+                            <span className="text-[11px] uppercase tracking-wider text-yellow-500 font-semibold opacity-80 group-hover:opacity-100 transition-opacity duration-200">
                               Learn More →
                             </span>
                           </div>
@@ -207,7 +207,7 @@ export default function EraDetailsView({
                 </span>
               </div>
 
-              <div className="p-8">
+              <div className="p-6">
                 {wars.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center text-[var(--color-text-muted)]">
                     <span className="text-5xl mb-4">🛡️</span>
@@ -242,7 +242,7 @@ export default function EraDetailsView({
                             </span>
                           </div>
                           <div
-                            className="text-sm text-[var(--color-text-secondary)] line-clamp-3 mb-3 flex-1"
+                            className="text-sm text-[var(--color-text-secondary)] line-clamp-2 mb-3 flex-1"
                             dangerouslySetInnerHTML={{ __html: w.description }}
                           />
                           <div className="flex justify-end">
@@ -275,7 +275,7 @@ export default function EraDetailsView({
                 </span>
               </div>
 
-              <div className="p-8">
+              <div className="p-6">
                 {battles.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center text-[var(--color-text-muted)]">
                     <span className="text-5xl mb-4">⚔️</span>
@@ -287,7 +287,7 @@ export default function EraDetailsView({
                       <Link
                         key={b._id}
                         href={`/region/${region.slug}/${era.slug}/battle/${b.slug}`}
-                        className="group flex flex-col sm:flex-row gap-5 p-5 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-accent)] rounded-2xl cursor-pointer transition-all duration-200 hover:shadow-md"
+                        className="group flex flex-col sm:flex-row gap-5 p-5 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-amber-500/50 rounded-2xl cursor-pointer transition-all duration-200 hover:shadow-md"
                       >
                         <div className="relative w-full sm:w-48 sm:h-36 h-44 shrink-0 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)]">
                           {b.image?.url ? (
@@ -302,7 +302,7 @@ export default function EraDetailsView({
                         </div>
                         <div className="flex-1 flex flex-col">
                           <div className="flex justify-between items-start gap-2 mb-2">
-                            <h3 className="font-serif font-semibold text-lg text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors duration-200">
+                            <h3 className="font-serif font-semibold text-lg text-[var(--color-text)] group-hover:text-amber-500 transition-colors duration-200">
                               {b.name}
                             </h3>
                             <span className="text-[11px] font-mono px-2 py-0.5 bg-[var(--color-bg)] rounded border border-[var(--color-border)] text-[var(--color-text-secondary)] whitespace-nowrap">
@@ -310,11 +310,11 @@ export default function EraDetailsView({
                             </span>
                           </div>
                           <div
-                            className="text-sm text-[var(--color-text-secondary)] line-clamp-3 mb-3 flex-1"
+                            className="text-sm text-[var(--color-text-secondary)] line-clamp-2 mb-3 flex-1"
                             dangerouslySetInnerHTML={{ __html: b.description }}
                           />
                           <div className="flex justify-end">
-                            <span className="text-[11px] uppercase tracking-wider text-[var(--color-accent)] font-semibold opacity-80 group-hover:opacity-100 transition-opacity duration-200">
+                            <span className="text-[11px] uppercase tracking-wider text-amber-500 font-semibold opacity-80 group-hover:opacity-100 transition-opacity duration-200">
                               Learn More →
                             </span>
                           </div>
