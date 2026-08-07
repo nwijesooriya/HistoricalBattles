@@ -864,7 +864,8 @@ body::before {
   border-radius: var(--radius-lg);
   overflow: hidden;
   transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
-  min-height: 220px;
+  min-height: auto;
+  height: auto;
 }
 
 .region-card:hover {
@@ -879,6 +880,8 @@ body::before {
   background-size: cover;
   background-position: center;
   transition: transform var(--transition-slow);
+  width: 100%;
+  height: 100%;
 }
 
 .region-card:hover .region-card-image {
@@ -915,6 +918,7 @@ body::before {
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: var(--space-md);
 }
 
 .region-card-icon {
@@ -952,9 +956,11 @@ body::before {
   flex: 1;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  min-height: 0;
 }
 
 [data-theme="dark"] .region-card-description {
@@ -1111,6 +1117,8 @@ body::before {
   cursor: pointer;
   transition: all var(--transition-slow);
   overflow: hidden;
+  min-height: auto;
+  height: auto;
 }
 
 .era-card::before {
@@ -1152,6 +1160,9 @@ body::before {
 
 .era-card-content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
 }
 
 .era-card-title {
@@ -1171,9 +1182,11 @@ body::before {
   line-height: 1.7;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-bottom: var(--space-lg);
+  min-height: 0;
 }
 
 .era-card-stats {
@@ -2319,9 +2332,9 @@ body::before {
 /* ─── Editable Area ─── */
 
 .rte-editor {
-  min-height: 200px;
-  max-height: 500px;
-  overflow-y: auto;
+  min-height: auto;
+  max-height: none;
+  overflow-y: visible;
   padding: 16px 20px;
   font-family: var(--font-body);
   font-size: 14px;
@@ -2329,6 +2342,75 @@ body::before {
   color: var(--color-text);
   outline: none;
   cursor: text;
+}
+
+/* For admin editing interface only */
+.rte-editor-editable {
+  min-height: 200px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+/* ─── Card Content HTML Styling ─── */
+
+/* Ensure HTML content in cards flows properly without overlapping */
+.rte-editor h2,
+.rte-editor h3,
+.rte-editor h4 {
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.rte-editor p {
+  display: block;
+  margin-bottom: 0.75em;
+  line-height: 1.6;
+}
+
+.rte-editor p:last-child {
+  margin-bottom: 0;
+}
+
+/* Prevent absolute positioning issues in card content */
+.rte-editor * {
+  position: static !important;
+}
+
+/* ─── Line Clamp Utilities ─── */
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .rte-editor:empty::before {
