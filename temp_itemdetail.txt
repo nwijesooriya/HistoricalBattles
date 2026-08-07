@@ -112,10 +112,10 @@ export default function ItemDetailArticle({
       </div>
 
       {/* Article Hero */}
-      <header className="relative mt-4 overflow-hidden">
+      <header className="relative mt-4">
         {heroImage && (
           <div
-            className="absolute inset-0 bg-cover bg-center w-full h-auto"
+            className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url(${heroImage})`, opacity: 0.18 }}
           />
         )}
@@ -159,12 +159,12 @@ export default function ItemDetailArticle({
       </header>
 
       {/* Article Body */}
-      <div className="max-w-full px-4 sm:px-6 lg:px-8 pb-20 min-h-0">
-        <div className="flex flex-col lg:flex-row gap-8 min-h-0">
+      <div className="max-w-full px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="flex flex-col lg:flex-row gap-8">
           {/* Table of Contents Sidebar */}
           {headings.length > 0 && (
-            <aside className="lg:w-72 flex-shrink-0 order-2 lg:order-1 min-h-0">
-              <div className="sticky top-6 p-6 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 min-h-0">
+            <aside className="lg:w-72 flex-shrink-0 order-2 lg:order-1">
+              <div className="sticky top-6 p-6 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <h2 className="text-sm font-semibold uppercase tracking-widest text-[var(--color-text-muted)] border-b border-[var(--color-border)] pb-2 mb-4">
                   Contents
                 </h2>
@@ -189,7 +189,7 @@ export default function ItemDetailArticle({
           )}
 
           {/* Main content area - wide like Google search results */}
-          <div className="flex-1 min-w-0 order-1 lg:order-2 min-h-0">
+          <div className="flex-1 min-w-0 order-1 lg:order-2">
             {/* At a Glance panel - moved to top */}
             <div className="mb-8 p-6 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
               <h2 className="text-sm font-semibold uppercase tracking-widest text-[var(--color-text-muted)] border-b border-[var(--color-border)] pb-2 mb-4">
@@ -245,19 +245,17 @@ export default function ItemDetailArticle({
             </div>
 
             {/* Main reading content - wide surface reading without card */}
-            <div className="flex flex-col gap-8">
+            <div>
               {item.image?.url && (
-                <div className="w-full overflow-hidden rounded-xl border border-[var(--color-border)]">
-                  <img
-                    src={item.image.url}
-                    alt={item.name}
-                    className="w-full h-auto object-cover max-h-[400px]"
-                  />
-                </div>
+                <img
+                  src={item.image.url}
+                  alt={item.name}
+                  className="w-full h-auto mb-8"
+                />
               )}
 
               <div
-                className="rte-editor text-[var(--color-text-secondary)] text-base md:text-lg leading-relaxed px-0 pb-8 min-h-0"
+                className="rte-editor text-[var(--color-text-secondary)] text-base md:text-lg leading-relaxed px-8 pb-8"
                 dangerouslySetInnerHTML={{ __html: contentWithIds }}
               />
             </div>
@@ -277,3 +275,4 @@ export default function ItemDetailArticle({
     </article>
   );
 }
+
